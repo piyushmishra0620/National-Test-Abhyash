@@ -184,7 +184,7 @@
         </div>
         <script>
             var username='';var appno=0;
-            fetch('http://127.0.0.1:3000/proxy_url').then(res=>res.json()).then((data)=>{if('name' in data[0]){username=data[0].name;appno=data[0].rollno;}else if('error' in data){alert('A server-side error occurred . Refresh the page again .');}}).catch((error)=>{alert('An unknown error occurred . Try refreshing the page .');console.error(error);});
+            fetch('https://national-test-abhyash.onrender.com/proxy_url').then(res=>res.json()).then((data)=>{if('name' in data[0]){username=data[0].name;appno=data[0].rollno;}else if('error' in data){alert('A server-side error occurred . Refresh the page again .');}}).catch((error)=>{alert('An unknown error occurred . Try refreshing the page .');console.error(error);});
             document.getElementById('form').addEventListener('mouseenter',()=>{
                 document.getElementById('form').style.transform='scale(1.01) translateZ(5px)';document.getElementById('form').style.boxShadow='-5.5px -4.0px  11px 1.7px black';
             });
@@ -204,7 +204,7 @@
                     document.getElementById('btn1').style.backgroundColor='blue';document.getElementById('loader').style.width='100vw';document.getElementById('loader').style.height='100vh';document.getElementById('loader').style.display='flex';document.getElementById('loader').style.flexDirection='row';document.getElementById('loader').style.gap='15px';document.getElementById('loader').style.justifyContent='center';document.getElementById('loader').style.alignItems='center';document.getElementById('loader').style.backgroundColor='rgb(13,13,13)';document.getElementById('loader').style.zIndex='999';document.getElementById('main').style.display='none';
                 },100);
                 setTimeout(()=>{
-                    fetch('http://127.0.0.1:3000/first_paper_details',{
+                    fetch('https://national-test-abhyash.onrender.com/first_paper_details',{
                         method:"POST",
                         headers:{
                             "Content-Type":"application/json"
@@ -212,7 +212,7 @@
                         body:JSON.stringify({name:username,roll:appno,paperChoice:"paper1"})
                     }).then(res=>res.json()).then((data)=>{
                         if("message" in data){
-                            window.location.href='./exam.html';
+                            window.location.href='/exam';
                         }else if('error' in data){
                             alert('A server-side error occurred . Wait a while and try again.');
                         }
@@ -226,7 +226,7 @@
                     document.getElementById('btn1').style.backgroundColor='blue';document.getElementById('loader').style.width='100vw';document.getElementById('loader').style.height='100vh';document.getElementById('loader').style.display='flex';document.getElementById('loader').style.flexDirection='row';document.getElementById('loader').style.gap='15px';document.getElementById('loader').style.justifyContent='center';document.getElementById('loader').style.alignItems='center';document.getElementById('loader').style.backgroundColor='rgb(13,13,13)';document.getElementById('loader').style.zIndex='999';document.getElementById('main').style.display='none';
                 },100);
                 setTimeout(()=>{
-                    fetch('http://127.0.0.1:3000/first_paper_details',{
+                    fetch('https://national-test-abhyash.onrender.com/first_paper_details',{
                         method:"POST",
                         headers:{
                             "Content-Type":"application/json"
@@ -234,7 +234,7 @@
                         body:JSON.stringify({name:username,roll:appno,paperChoice:"paper1"})
                     }).then(res=>res.json()).then((data)=>{
                         if("message" in data){
-                            window.location.href='./exam.html';
+                            window.location.href='/exam';
                         }else if('error' in data){
                             alert('A server-side error occurred . Wait a while and try again.');
                         }
@@ -248,7 +248,7 @@
                     document.getElementById('btn2').style.backgroundColor='blue';document.getElementById('loader').style.width='100vw';document.getElementById('loader').style.height='100vh';document.getElementById('loader').style.display='flex';document.getElementById('loader').style.flexDirection='row';document.getElementById('loader').style.gap='15px';document.getElementById('loader').style.justifyContent='center';document.getElementById('loader').style.alignItems='center';document.getElementById('loader').style.backgroundColor='rgb(13,13,13)';document.getElementById('loader').style.zIndex='999';document.getElementById('main').style.display='none';
                 },100);
                 setTimeout(()=>{
-                    fetch('http://127.0.0.1:3000/first_paper_details',{
+                    fetch('https://national-test-abhyash.onrender.com/first_paper_details',{
                         method:"POST",
                         headers:{
                             "Content-Type":"application/json"
@@ -256,7 +256,7 @@
                         body:JSON.stringify({name:username,roll:appno,paperChoice:"paper2"})
                     }).then(res=>res.json()).then((data)=>{
                         if("message" in data){
-                            window.location.href='./exam.html';
+                            window.location.href='/exam';
                         }else if('error' in data){
                             alert('A server-side error occurred . Wait a while and try again.');
                         }
@@ -270,7 +270,7 @@
                     document.getElementById('btn2').style.backgroundColor='blue';document.getElementById('loader').style.width='100vw';document.getElementById('loader').style.height='100vh';document.getElementById('loader').style.display='flex';document.getElementById('loader').style.flexDirection='row';document.getElementById('loader').style.gap='15px';document.getElementById('loader').style.justifyContent='center';document.getElementById('loader').style.alignItems='center';document.getElementById('loader').style.backgroundColor='rgb(13,13,13)';document.getElementById('loader').style.zIndex='999';document.getElementById('main').style.display='none';
                 },100);
                 setTimeout(()=>{
-                    fetch('http://127.0.0.1:3000/first_paper_details',{
+                    fetch('https://national-test-abhyash.onrender.com/first_paper_details',{
                         method:"POST",
                         headers:{
                             "Content-Type":"application/json"
@@ -278,7 +278,7 @@
                         body:JSON.stringify({name:username,roll:appno,paperChoice:"paper2"})
                     }).then(res=>res.json()).then((data)=>{
                         if("message" in data){
-                            window.location.href='./exam.html';
+                            window.location.href='/exam';
                         }else if('error' in data){
                             alert('A server-side error occurred . Wait a while and try again.');
                         }
