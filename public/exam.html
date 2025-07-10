@@ -77,11 +77,9 @@
                         <button id="nextbtn">Next</button>
                     </div>
                 </div>
-                <div id="optionWrapper">
-                    <div id="questionPalette">
+                <div id="questionPalette">
                         <header>Questions Palette</header>
                         <div id="options"></div>
-                    </div>
                 </div>
             </div>
 
@@ -123,8 +121,8 @@
             const option = document.createElement('div'); option.textContent = i; option.setAttribute('id', i.toString()); option.style.padding = '14px'; option.style.borderColor = 'white'; option.style.borderWidth = '1px'; option.style.borderStyle = 'solid'; option.style.margin = '5px'; optionbox.appendChild(option); option.style.borderRadius = '50%'; option.style.backgroundColor = 'white'; option.style.color = 'black'; option.style.outline = '3px solid grey'; option.style.cursor = 'pointer';
         }
         document.getElementById('hamburger_menu').addEventListener('click', () => {
-            const optionwrap = document.getElementById('optionWrapper'); const questionwrap = document.getElementById('questionPalette');
-            optionwrap.classList.toggle('active'); questionwrap.classList.toggle('active');
+            const questionwrap = document.getElementById('questionPalette');
+            questionwrap.classList.toggle('active');
             document.getElementById('hamburger_menu').classList.toggle('active');
         });
         document.getElementById('info').querySelector('fieldset').addEventListener('mouseenter', () => {
