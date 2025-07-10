@@ -352,7 +352,7 @@
                                     if ('message' in data) {
                                         button.remove();
                                         localStorage.setItem('modifiedCount', 'true');
-                                        window.location.href = './exam.html';
+                                        window.location.href = '/exam';
                                     } else if ('error' in data) {
                                         alert('A server-side error occurred . Refresh the page and try again .');
                                     }
@@ -394,7 +394,7 @@
                                     if ('message' in data) {
                                         button.remove();
                                         localStorage.setItem('modifiedCount', 'true');
-                                        window.location.href = './exam.html';
+                                        window.location.href = '/exam';
                                     } else if ('error' in data) {
                                         alert('A server-side error occurred . Refresh the page and try again .');
                                     }
@@ -431,7 +431,7 @@
                 document.getElementById('main').style.display = 'none';
             }, 100);
             setTimeout(() => {
-                window.location.href = './result.html';
+                window.location.href = '/result';
             }, 2000);
         });
 
@@ -453,7 +453,7 @@
                 document.getElementById('main').style.display = 'none';
             }, 100);
             setTimeout(() => {
-                window.location.href = './result.html';
+                window.location.href = '/result';
             }, 2000);
         });
 
