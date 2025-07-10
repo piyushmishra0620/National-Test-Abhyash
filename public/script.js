@@ -9,7 +9,7 @@ localStorage.removeItem('modifiedCount');
 namebox.addEventListener('input', async ()=>{
     userName=namebox.value;
     if(userName!=''){
-        nameResult = await fetch('http://127.0.0.1:3000/name',{
+        nameResult = await fetch('https://national-test-abhyash.onrender.com/name',{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -40,7 +40,7 @@ namebox.addEventListener('input', async ()=>{
 rollbox.addEventListener('input', async ()=>{
     userRoll=rollbox.value;
     if(userRoll!=''){
-        rollResult= await fetch('http://127.0.0.1:3000/roll',{
+        rollResult= await fetch('https://national-test-abhyash.onrender.com/roll',{
             method:"POST",
             headers:{
                 "Content-Type":"application/json"
@@ -151,7 +151,7 @@ button.addEventListener('click', async (e)=>{
     },100);
     setTimeout( async ()=>{
         try{
-            var response= await fetch('http://127.0.0.1:3000/proxy_url',{
+            var response= await fetch('https://national-test-abhyash.onrender.com/proxy_url',{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
@@ -178,7 +178,7 @@ button.addEventListener('touchstart', async (e)=>{
     },100);
     setTimeout( async ()=>{
         try{
-            var response= await fetch('http://127.0.0.1:3000/proxy_url',{
+            var response= await fetch('https://national-test-abhyash.onrender.com/proxy_url',{
                 method:"POST",
                 headers:{
                     "Content-Type":"application/json"
