@@ -1,0 +1,447 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: #111;
+  color: white;
+  font-family: Arial, sans-serif;
+  scroll-behavior: smooth;
+  user-select:none;
+  -webkit-tap-highlight-color:transparent;
+  scroll-behavior:smooth;
+}
+
+nav {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: 7vh;
+  background-color: transparent;
+  border-bottom: 1px solid rgba(123, 121, 121, 0.644);
+  box-shadow: 0px 0.5px 0.3px rgb(51, 50, 50);
+  backdrop-filter: blur(90px);
+  z-index: 99;
+}
+
+#container {
+  position:absolute;  
+  display: flex;
+  align-items: center;
+  height: 100%;
+  padding-left: 10px;
+  width:100%;
+}
+.nav-logo{
+    height:90%;
+    aspect-ratio:1/1;
+    border-radius: 50%;
+    cursor:pointer;
+    object-fit:contain;
+}
+#header h5 {
+  font-weight: bolder;
+  color: blue;
+  margin: 0;
+  font-size: larger;
+  cursor: pointer;
+}
+
+#header h6 {
+  font-style: italic;
+  background-color: green;
+  color: white;
+  padding: 0 6px;
+  margin: 0;
+  font-size: 10px;
+  width:fit-content;
+}
+
+#cover {
+  padding-top: 8vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+#hamburger_menu{
+    display:none;
+}
+
+#info {
+  display: flex;
+  justify-content: space-between;
+  width: 95%;
+  margin-bottom: 2vh;
+}
+
+#info fieldset {
+  border: 1px solid rgba(123, 121, 121, 0.644);
+  border-radius: 15px;
+  padding: 15px;
+  color: white;
+}
+
+#timeinfo {
+  border: 1px solid rgba(123, 121, 121, 0.644);
+  border-radius: 15px;
+  padding: 15px;
+  text-align: center;
+}
+
+#test {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  width: 95%;
+  max-width: 1200px;
+  margin: 20px auto;
+}
+
+#questions {
+  flex: 0 0 65%;
+  max-width: 750px;
+  position: relative;
+}
+
+#questionPalette {
+  flex: 0 0 30%;
+  min-width: 250px;
+  margin-left: 2vw;
+  box-shadow:-5.5px -6.0px 11px 1.7px black;
+}
+
+#navigation {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(-50%);
+  z-index: 3;
+  padding: 0 2%;
+}
+
+#navigation section {
+  width: 33.33%;
+  display: flex;
+  justify-content: center;
+}
+
+#navigation section header {
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+  padding: 8px 20px;
+  border: 1px solid rgba(123, 121, 121, 0.644);
+  border-bottom: none;
+  border-top-right-radius: 15px;
+  border-top-left-radius: 15px;
+  background-color: rgb(13, 13, 13);
+  z-index: 2;
+  position: relative;
+  box-shadow: 0px -2px 3px rgba(0, 0, 0, 0.3);
+}
+
+#question {
+  border: 1px solid rgba(123, 121, 121, 0.644);
+  border-radius: 15px;
+  padding: 15px;
+  height: 400px;
+  overflow-y: auto;
+  background: #111;
+  margin-top: 40px;
+  position: relative;
+}
+
+
+#buttonsRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+  width: 100%;
+}
+
+#buttonsRow > button {
+  padding: 10px 15px;
+  font-weight: bold;
+  font-size: medium;
+  border-radius: 15px;
+  border: 1px solid rgba(91, 89, 89, 0.203);
+  cursor: pointer;
+}
+
+#save {
+  background-color: green;
+  color: white;
+}
+
+#clear {
+  background-color: white;
+  color: black;
+}
+
+#mark {
+  background-color: blue;
+  color: white;
+}
+
+
+#navigatingButtons {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
+  width: 100%;
+}
+
+#backbtn, #nextbtn {
+  padding: 5px 15px;
+  font-size: large;
+  font-weight: normal;
+  background-color: blue;
+  color: black;
+  border: 1px solid rgba(123, 121, 121, 0.644);
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+#questionPalette > header {
+  text-align: center;
+  background-color: #111;
+  border: 1px solid rgba(123, 121, 121, 0.644);
+  border-bottom: none;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  padding: 10px;
+  margin-bottom: 0;
+}
+
+#options {
+  margin-top: 0;
+  border: 1px solid rgba(123, 121, 121, 0.644);
+  border-top: none;
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+  padding: 10px;
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+  background: #111;
+}
+
+#submitBtn {
+  display: flex;
+  justify-content: center;
+  margin: 40px auto;
+}
+
+#submitBtn button {
+  padding: 20px 45px;
+  font-weight: bold;
+  font-size: medium;
+  background-color: green;
+  color: white;
+  border: 1px solid rgba(123, 121, 121, 0.644);
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+
+@media (max-width: 980px) {
+  #test {
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #questions {
+    width: 100%;
+    max-width: 800px;
+  }
+
+  #optionWrapper.active{
+    display:grid;position:absolute;top:40vh;width:100%;place-items:center;z-index:895;
+  }
+  #questionPalette {
+    position:relative;box-shadow:none;z-index:895;background-color:transparent;backdrop-filter:blur(90px);transform:translateX(200%);transition:transform 0.2s ease-in;
+  }
+
+  #questionPalette.active{
+    transform:translateX(0);
+  }
+
+  #buttonsRow {
+    justify-content: center;
+  }
+
+  #navigatingButtons {
+    justify-content: space-between;
+  }
+}
+
+@media (max-width: 620px) {
+  #buttonsRow > button {
+    padding: 8px 10px;
+    font-size: small;
+  }
+
+  #submitBtn button {
+    padding: 15px 30px;
+  }
+
+  #backbtn, #nextbtn {
+    font-size: medium;
+  }
+}
+
+@media(max-height:650px){
+    #header h5{
+        margin-top:1.5%;margin-bottom:0.3%;
+    }
+    #header h6{
+        margin-bottom:1.5%;
+    }
+}
+@media(min-height:800px){
+    #header h5{
+        margin-top:5%;margin-bottom:1%;
+    }
+    #header h6{
+        margin-bottom:5%;
+    }
+}
+@media(min-height:1000px){
+    #header h5{
+        margin-top:8%;
+    }
+}
+@media(min-height:1300px){
+    #header h5{
+        margin-top:10%;
+    }
+}
+@media(min-height:1500px){
+    #header h5{
+        margin-top:15%;
+    }
+}
+@media(min-height:1800px){
+    #header h5{
+        font-size:25px;
+    }
+    #header h6{
+        font-size:15px;
+    }
+}
+@media(max-height:600px){
+    #nav_bar{
+        height:48px;
+    }
+}
+@media(max-height:550px){
+    #header h5{
+        font-size:15px;
+    }
+    #header h6{
+        font-size:7px;
+    }
+}
+@media(max-height:414px){
+    #header h5{
+        font-size:13px;
+    }
+    #header h6{
+        font-size:5px;
+    }
+}
+@media(max-width:860px){
+  #nameinfo,#rollinfo{
+    font-size:10px;
+  }
+  #timeinfo{
+    font-size:10px;
+  }
+}
+@media(max-width:641px){
+  #nameinfo,#rollinfo{
+    font-size:7px;
+  }
+  #timeinfo{
+    font-size:7px;
+  }
+}
+@media(max-wudth:451px){
+  #nameinfo,#rollinfo{
+    font-size:5px;
+  }
+  #timeinfo{
+    font-size:5px;
+  }
+}
+@media(max-width:400px){
+  #info fieldset{
+    padding:9px;
+  }
+  #timeinfo{
+    padding:9px;
+  }
+}
+
+#loader{
+    display:none;
+}
+.dot{
+    width:15px;height:15px;border-radius:50%;animation:bounce 1s infinite;
+}
+.dot:nth-child(1){
+    animation-delay:0s;
+}
+.dot:nth-child(2){
+    animation-delay:0.25s;
+}
+.dot:nth-child(3){
+    animation-delay:0.50s;
+}
+@keyframes bounce{
+    0%{
+        transform:translateY(-15px);
+    }50%{
+        transform:translateY(-7.5px);
+    }100%{
+        transform:tranlateY(0px);
+    }
+}
+@media(max-width:980px){
+    #hamburger_menu{
+        color:white;display:flex;justify-content:center;align-items:center;width:40px;cursor:pointer;outline:none;border:2px solid white;padding:3px;height:40px;margin-right:25px;margin-top:2px;border-radius:12px;margin-left:auto;
+    }
+    .bar{
+        width:20px;height:3px;margin:2px;background-color:white;border-radius:12px;
+    }
+    #hamburger_menu.active .bar:nth-child(2){
+        opacity:0%;
+    }
+    #hamburger_menu.active .bar:nth-child(1){
+        transform:rotate(45deg) translateY(5.5px) translateX(4.8px);
+    }
+    #hamburger_menu.active .bar:nth-child(3){
+        transform:rotate(-45deg) translateY(-5.4px) translateX(4.7px);
+    }
+}
+@media(max-width:600px){
+    #hamburger_menu{
+        height:34px;padding:2.5px;
+    }
+}
+@media(max-width:500px){
+    #hamburger_menu{
+        height:25px;padding:1.5px;
+    }
+}

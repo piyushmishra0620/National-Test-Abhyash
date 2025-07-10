@@ -1,0 +1,1368 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>National Test Abhyash</title>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+        content="width=device-width, height=device-height, user-scalable=yes, initial-scale=1.0, maximum-scale=5.0, minimum-scale=0.25">
+    <link rel="icon" href="./ChatGPT Image Jun 20, 2025, 11_03_50 PM.png">
+    <link rel="stylesheet" href="./exam.css">
+</head>
+
+<body>
+    <div id="main">
+        <nav>
+            <div id="container">
+                <img src="./ChatGPT Image Jun 20, 2025, 11_03_50 PM.png" load="eager" class="nav-logo" alt="logo"
+                    href="./index.html">
+                <div id="header">
+                    <h5 href="./index.html">National Testing Agency</h5>
+                    <h6 href="./index.html">Excellence in Assessment</h6>
+                </div>
+                <div id="hamburger_menu">
+                    <span
+                        style="display:flex;flex-direction:column;cursor:pointer;justify-content:center;align-items:center;">
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                        <span class="bar"></span>
+                    </span>
+                </div>
+            </div>
+        </nav>
+        <div id="cover">
+            <div id="info">
+                <fieldset
+                    style="display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:1;border-radius:15px;margin-left:3%;margin-top:1.5%;width:fit-content;">
+                    <legend style="color:white;text-align:center;">Candidate Details</legend>
+                    <div id="nameinfo">Name : <span></span> </div>
+                    <div id="rollinfo">Application Number : <span></span> </div>
+                </fieldset>
+                <div id="timeinfo">Time Remaining : <span></span></div>
+            </div>
+            <br><br>
+            <div id="test">
+                <div id="questions">
+                    <div id="navigation">
+                        <section id="maths">
+                            <header
+                                style="color:white;font-size:18px;font-weight:bold;position:absolute;width:fit-content;place-self:left;padding:8px;border:1px solid rgba(123,121,121,0.644);border-bottom:solid 1px rgb(13,13,13);border-top-right-radius:15px;border-top-left-radius:15px;z-index:99;margin-left:5%;cursor:pointer;">
+                                Maths</header>
+                        </section>
+                        <section id="physics">
+                            <header
+                                style="color:white;font-size:18px;font-weight:bold;position:absolute;width:fit-content;place-self:left;padding:8px;border:1px solid rgba(123,121,121,0.644);border-bottom:solid 1px rgb(13,13,13);border-top-right-radius:15px;border-top-left-radius:15px;z-index:99;margin-left:5%;cursor:pointer;">
+                                Physics</header>
+                        </section>
+                        <section id="chemistry">
+                            <header
+                                style="color:white;font-size:18px;font-weight:bold;position:absolute;width:fit-content;place-self:left;padding:8px;border:1px solid rgba(123,121,121,0.644);border-bottom:solid 1px rgb(13,13,13);border-top-right-radius:15px;border-top-left-radius:15px;z-index:99;margin-left:5%;cursor:pointer;">
+                                Chemistry</header>
+                        </section>
+                    </div>
+                    <div id="question">
+                        <main id="questionContent"></main>
+                    </div>
+
+                    <div id="buttonsRow">
+                        <button id="save">Save & Next</button>
+                        <button id="clear">Clear</button>
+                        <button style="background-color:orange;color:white;" id="save&mark">Save & Mark For
+                            Review</button>
+                        <button id="mark">Mark For Review & Next</button>
+                    </div>
+
+                    <div id="navigatingButtons">
+                        <button id="backbtn">Back</button>
+                        <button id="nextbtn">Next</button>
+                    </div>
+                </div>
+                <div id="optionWrapper">
+                    <div id="questionPalette">
+                        <header>Questions Palette</header>
+                        <div id="options"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="submitBtn"><button type="submit"
+                    style="padding-left:45px;padding-right:45px;padding-top:20px;padding-bottom:20px;background-color:green;color:white;border:1px solid rgba(123,121,121,0.644);border-radius:15px;font-size:medium;font-weight:bold;cursor:pointer;">Submit</button>
+            </div>
+        </div>
+    </div>
+    <div id="loader">
+        <span class="dot" style="background-color:orange"></span>
+        <span class="dot" style="background-color:white;"></span>
+        <span class="dot" style="background-color:green;"></span>
+    </div>
+    <script>
+        const nameinfo = document.getElementById('nameinfo');
+        const rollinfo = document.getElementById('rollinfo');
+        const timeinfo = document.getElementById('timeinfo');
+        const questionContent = document.getElementById('questionContent');
+        const submitBtn = document.getElementById('submitBtn').querySelector('button');
+        const backBtn = document.getElementById('backbtn');
+        const nextBtn = document.getElementById('nextbtn');
+        var attemptingPaper = ''; var Qsection = null; var currentQuestion = null;
+        var time = 10800; var minutes = (((Math.floor(time / 3600)) * 60) + (Math.floor((time % 3600) / 60))).toString().padStart(2, '0'); var seconds = ((time % 3600) % 60).toString().padStart(2, '0'); timeinfo.querySelector('span').textContent = `${minutes}:${seconds} s`;
+        timer = () => {
+            time--; timeinfo.querySelector('span').textContent = '';
+            if (time >= 0) {
+                minutes = (((Math.floor(time / 3600)) * 60) + (Math.floor((time % 3600) / 60))).toString().padStart(2, '0'); seconds = ((time % 3600) % 60).toString().padStart(2, '0'); timeinfo.querySelector('span').textContent = `${minutes}:${seconds} s`;
+            } else {
+                clearInterval(timerInterval);
+            }
+            if (time < 300) {
+                timeinfo.querySelector('span').style.color = 'red';
+            }
+        }
+        timer();
+        var timerInterval = setInterval(timer, 1000);
+        const optionbox = document.getElementById('options');
+        for (let i = 1; i <= 18; i++) {
+            const option = document.createElement('div'); option.textContent = i; option.setAttribute('id', i.toString()); option.style.padding = '14px'; option.style.borderColor = 'white'; option.style.borderWidth = '1px'; option.style.borderStyle = 'solid'; option.style.margin = '5px'; optionbox.appendChild(option); option.style.borderRadius = '50%'; option.style.backgroundColor = 'white'; option.style.color = 'black'; option.style.outline = '3px solid grey'; option.style.cursor = 'pointer';
+        }
+        document.getElementById('hamburger_menu').addEventListener('click', () => {
+            const optionwrap = document.getElementById('optionWrapper'); const questionwrap = document.getElementById('questionPalette');
+            optionwrap.classList.toggle('active'); questionwrap.classList.toggle('active');
+            document.getElementById('hamburger_menu').classList.toggle('active');
+        });
+        document.getElementById('info').querySelector('fieldset').addEventListener('mouseenter', () => {
+            document.getElementById('info').querySelector('fieldset').style.scale = '1.01'; document.getElementById('info').querySelector('fieldset').style.boxShadow = '5.5px 6.0px 11px 1.7px black'; document.getElementById('info').querySelector('fieldset').style.translateZ = '1.01';
+        });
+        document.getElementById('info').querySelector('fieldset').addEventListener('mouseleave', () => {
+            document.getElementById('info').querySelector('fieldset').style.scale = '1.0'; document.getElementById('info').querySelector('fieldset').style.translateZ = '1.0'; document.getElementById('info').querySelector('fieldset').style.boxShadow = 'none';
+        });
+        document.getElementById('info').querySelector('fieldset').addEventListener('touchstart', () => {
+            document.getElementById('info').querySelector('fieldset').style.scale = '1.01'; document.getElementById('info').querySelector('fieldset').style.boxShadow = '5.5px 6.0px 11px 1.7px black'; document.getElementById('info').querySelector('fieldset').style.translateZ = '1.01';
+        });
+        document.getElementById('info').querySelector('fieldset').addEventListener('touchend', () => {
+            document.getElementById('info').querySelector('fieldset').style.scale = '1.0'; document.getElementById('info').querySelector('fieldset').style.translateZ = '1.0'; document.getElementById('info').querySelector('fieldset').style.boxShadow = 'none';
+        });
+        document.getElementById('timeinfo').addEventListener('mouseenter', () => {
+            document.getElementById('timeinfo').style.scale = '1.01'; document.getElementById('timeinfo').style.boxShadow = '5.5px 6.0px 11px 1.7px black'; document.getElementById('timeinfo').style.translateZ = '1.01';
+        });
+        document.getElementById('timeinfo').addEventListener('mouseleave', () => {
+            document.getElementById('timeinfo').style.scale = '1.0'; document.getElementById('timeinfo').style.boxShadow = 'none'; document.getElementById('timeinfo').style.translateZ = '1.0';
+        });
+        document.getElementById('timeinfo').addEventListener('touchstart', () => {
+            document.getElementById('timeinfo').style.scale = '1.01'; document.getElementById('timeinfo').style.boxShadow = '5.5px 6.0px 11px 1.7px black'; document.getElementById('timeinfo').style.translateZ = '1.01';
+        });
+        document.getElementById('timeinfo').addEventListener('touchend', () => {
+            document.getElementById('timeinfo').style.scale = '1.0'; document.getElementById('timeinfo').style.boxShadow = 'none'; document.getElementById('timeinfo').style.translateZ = '1.0';
+        });
+        var timeRemaining = 10800 - time; var username = ''; var appno = 0;
+        fetch('http://127.0.0.1:3000/proxy_url').then(res => res.json()).then((data) => { if ('name' in data[0]) { username = data[0].name; nameinfo.querySelector('span').textContent = data[0].name; rollinfo.querySelector('span').textContent = data[0].rollno; appno = data[0].rollno; } else if ('error' in data) { alert('A server-side error occurred . Try refreshing the page again.'); } }).catch((error) => { alert('An unknown error occurred. Try refreshing the page again.'); console.error(error); });
+        const m1q1 = document.createElement('div'); m1q1.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q2 = document.createElement('div'); m1q2.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q3 = document.createElement('div'); m1q3.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q4 = document.createElement('div'); m1q4.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q5 = document.createElement('div'); m1q5.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q6 = document.createElement('div'); m1q6.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q7 = document.createElement('div'); m1q7.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q8 = document.createElement('div'); m1q8.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q9 = document.createElement('div'); m1q9.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q10 = document.createElement('div'); m1q10.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q11 = document.createElement('div'); m1q11.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q12 = document.createElement('div'); m1q12.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q13 = document.createElement('div'); m1q13.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q14 = document.createElement('div'); m1q14.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q15 = document.createElement('div'); m1q15.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q16 = document.createElement('div'); m1q16.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q17 = document.createElement('div'); m1q17.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m1q18 = document.createElement('div'); m1q18.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        m1q1.innerHTML = `<form><p style='text-align:left;color:white;'><u>Single Option Correct Type Questions(5 questions)</u></p><img src='./maths1(1).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths11(1)' name='maths1(1)'> <label for='maths11(1)'>A</label><br><input type='radio' id='maths11(2)' name='maths1(1)'> <label for='maths11(2)'>B</label><br><input type='radio' id='maths11(3)' name='maths1(1)'> <label for='maths11(3)'>C</label><br><input type='radio' id='maths11(4)' name='maths1(1)'> <label for='maths11(4)'>D</label></div></form>`; m1q2.innerHTML = `<form><img src='./maths1(2).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths12(1)' name='maths1(2)'> <label for='maths12(1)'>A</label><br><input type='radio' id='maths12(2)' name='maths1(2)'> <label for='maths12(2)'>B</label><br><input type='radio' id='maths12(3)' name='maths1(2)'> <label for='maths12(3)'>C</label><br><input type='radio' id='maths12(4)' name='maths1(2)'> <label for='maths12(4)'>D</label></div></form>`; m1q3.innerHTML = `<form><img src='./maths1(3).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths13(1)' name='maths1(3)'> <label for='maths13(1)'>A</label><br><input type='radio' id='maths13(2)' name='maths1(3)'> <label for='maths13(2)'>B</label><br><input type='radio' id='maths13(3)' name='maths1(3)'> <label for='maths13(3)'>C</label><br><input type='radio' id='maths13(4)' name='maths1(3)'> <label for='maths13(4)'>D</label></div></form>`; m1q4.innerHTML = `<form><img src='./maths1(4).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths14(1)' name='maths1(4)'> <label for='maths14(1)'>A</label><br><input type='radio' id='maths14(2)' name='maths1(4)'> <label for='maths14(2)'>B</label><br><input type='radio' id='maths14(3)' name='maths1(4)'> <label for='maths14(3)'>C</label><br><input type='radio' id='maths14(4)' name='maths1(4)'> <label for='maths14(4)'>D</label></div></form>`; m1q5.innerHTML = `<form><img src='./maths1(5).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths15(1)' name='maths1(5)'> <label for='maths15(1)'>A</label><br><input type='radio' id='maths15(2)' name='maths1(5)'> <label for='maths15(2)'>B</label><br><input type='radio' id='maths15(3)' name='maths1(5)'> <label for='maths15(3)'>C</label><br><input type='radio' id='maths15(4)' name='maths1(5)'> <label for='maths15(4)'>D</label></div></form>`; m1q6.innerHTML = `<form><p style='text-align:left;color:white;'><u>Multiple Correct Answer type Questions(8 questions)</u></p><img src='./maths1(6).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths16(1)' name='maths16(1)'> <label for='maths16(1)'>A</label><br><input type='radio' id='maths16(2)' name='maths16(2)'> <label for='maths16(2)'>B</label><br><input type='radio' id='maths16(3)' name='maths16(3)'> <label for='maths16(3)'>C</label><br><input type='radio' id='maths16(4)' name='maths16(4)'> <label for='maths16(4)'>D</label></div></form>`; m1q7.innerHTML = `<form><img src='./maths1(7).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths17(1)' name='maths17(1)'> <label for='maths17(1)'>A</label><br><input type='radio' id='maths17(2)' name='maths17(2)'> <label for='maths17(2)'>B</label><br><input type='radio' id='maths17(3)' name='maths17(3)'> <label for='maths17(3)'>C</label><br><input type='radio' id='maths17(4)' name='maths17(4)'> <label for='maths17(4)'>D</label></div></form>`; m1q8.innerHTML = `<form><img src='./maths1(8).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths18(1)' name='maths18(1)'> <label for='maths18(1)'>A</label><br><input type='radio' id='maths18(2)' name='maths18(2)'> <label for='maths18(2)'>B</label><br><input type='radio' id='maths18(3)' name='maths18(3)'> <label>C</label><br><input type='radio' id='maths18(4)' name='maths18(4)'> <label for='maths18(4)'>D</label></div></form>`; m1q9.innerHTML = `<form><img src='./maths1(9).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths19(1)' name='maths19(1)'> <label for='maths19(1)'>A</label><br><input type='radio' id='maths19(2)' name='maths19(2)'> <label for='maths19(2)'>B</label><br><input type='radio' id='maths19(3)' name='maths19(3)'> <label for='maths19(3)'>C</label><br><input type='radio' id='maths19(4)' name='maths19(4)'> <label for='maths19(4)'>D</label></div></form>`; m1q10.innerHTML = `<form><img src='./maths1(10).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths110(1)' name='maths110(1)'> <label for='maths110(1)'>A</label><br><input type='radio' id='maths110(2)' name='maths110(2)'> <label for='maths110(2)'>B</label><br><input type='radio' id='maths110(3)' name='maths110(3)'> <label for='maths110(3)'>C</label><br><input type='radio' id='maths110(4)' name='maths110(4)'> <label for='maths110(4)'>D</label></div></form>`; m1q11.innerHTML = `<form><img src='./maths1(11).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths111(1)' name='maths111(1)'> <label for='maths111(1)'>A</label><br><input type='radio' id='maths111(2)' name='maths111(2)'> <label for='maths111(2)'>B</label><br><input type='radio' id='maths111(3)' name='maths111(3)'> <label for='maths111(3)'>C</label><br><input type='radio' id='maths111(4)' name='maths111(4)'> <label for='maths111(4)'>D</label></div></form>`; m1q12.innerHTML = `<form><img src='./maths1(12).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths112(1)' name='maths112(1)'> <label for='maths112(1)'>A</label><br><input type='radio' id='maths112(2)' name='maths112(2)'> <label for='maths112(2)'>B</label><br><input type='radio' id='maths112(3)' name='maths112(3)'> <label for='maths112(3)'>C</label><br><input type='radio' id='maths112(4)' name='maths112(4)'> <label for='maths112(4)'>D</label></div></form>`; m1q13.innerHTML = `<form><img src='./maths1(13).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths113(1)' name='maths113(1)'> <label for='maths113(1)'>A</label><br><input type='radio' id='maths113(2)' name='maths113(2)'> <label for='maths113(2)'>B</label><br><input type='radio' id='maths113(3)' name='maths113(3)'> <label for='maths113(3)'>C</label><br><input type='radio' id='maths113(4)' name='maths113(4)'> <label for='maths113(4)'>D</label></div></form>`; m1q14.innerHTML = `<form><p style='text-align:left;color:white;'><u>Single Integer type Questions(5 questions)</u></p><img src='./maths1(14).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><input type='Number' id='maths1(14)'></div></form>`; m1q15.innerHTML = `<form><img src='./maths1(15).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><input type='Number' id='maths1(15)'></div></form>`; m1q16.innerHTML = `<form><img src='./maths1(16).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><input type='Number' id='maths1(16)'></div></form>`; m1q17.innerHTML = `<form><img src='./maths1(17).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><input type='Number' id='maths1(17)'></div></form>`; m1q18.innerHTML = `<form><img src='./maths1(18).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><input type='Number' id='maths1(18)'></div></form>`; const m2q1 = document.createElement('div'); m2q1.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q2 = document.createElement('div'); m2q2.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q3 = document.createElement('div'); m2q3.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q4 = document.createElement('div'); m2q4.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q5 = document.createElement('div'); m2q5.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q6 = document.createElement('div'); m2q6.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        const m2q7 = document.createElement('div'); m2q7.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q8 = document.createElement('div'); m2q8.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q9 = document.createElement('div'); m2q9.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q10 = document.createElement('div'); m2q10.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        const m2q11 = document.createElement('div'); m2q11.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q12 = document.createElement('div'); m2q12.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; const m2q13 = document.createElement('div'); m2q13.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        const m2q14 = document.createElement('div'); m2q14.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        const m2q15 = document.createElement('div'); m2q15.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        const m2q16 = document.createElement('div'); m2q16.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        const m2q17 = document.createElement('div'); m2q17.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        const m2q18 = document.createElement('div'); m2q18.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;';
+        m2q1.innerHTML = `<form><p style='text-align:left;color:white;'><u>Single Option Correct Type Questions(5 questions)</u></p><img src='./maths2(1).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths21(1)' name='maths2(1)'> <label for='maths21(1)'>A</label><br><input type='radio' id='maths21(2)' name='maths2(1)'> <label for='maths21(2)'>B</label><br><input type='radio' id='maths21(3)' name='maths2(1)'> <label for='maths21(3)'>C</label><br><input type='radio' id='maths21(4)' name='maths2(1)'> <label for='maths21(4)'>D</label></div></form>`; m2q2.innerHTML = `<form><img src='./maths2(2).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths22(1)' name='maths2(2)'> <label for='maths22(1)'>A</label><br><input type='radio' id='maths22(2)' name='maths2(2)'> <label for='maths22(2)'>B</label><br><input type='radio' id='maths22(3)' name='maths2(2)'> <label for='maths22(3)'>C</label><br><input type='radio' id='maths22(4)' name='maths2(2)'> <label for='maths22(4)'>D</label></div></form>`; m2q3.innerHTML = `<form><img src='./maths2(3).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths23(1)' name='maths2(3)'> <label for='maths23(1)'>A</label><br><input type='radio' id='maths23(2)' name='maths2(3)'> <label for='maths23(2)'>B</label><br><input type='radio' id='maths23(3)' name='maths2(3)'> <label for='maths23(3)'>C</label><br><input type='radio' id='maths23(4)' name='maths2(3)'> <label for='maths23(4)'>D</label></div></form>`; m2q4.innerHTML = `<form><img src='./maths2(4).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths24(1)' name='maths2(4)'> <label for='maths24(1)'>A</label><br><input type='radio' id='maths24(2)' name='maths2(4)'> <label for='maths24(2)'>B</label><br><input type='radio' id='maths24(3)' name='maths2(4)'> <label for='maths24(3)'>C</label><br><input type='radio' id='maths24(4)' name='maths2(4)'> <label for='maths24(4)'>D</label></div></form>`; m2q5.innerHTML = `<form><img src='./maths2(5).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths25(1)' name='maths2(5)'> <label for='maths25(1)'>A</label><br><input type='radio' id='maths25(2)' name='maths2(5)'> <label for='maths25(2)'>B</label><br><input type='radio' id='maths25(3)' name='maths2(5)'> <label for='maths25(3)'>C</label><br><input type='radio' id='maths25(4)' name='maths2(5)'> <label for='maths25(4)'>D</label></div></form>`;
+        m2q6.innerHTML = `<form><p style='text-align:left;color:white;'><u>Multiple Correct Answer type Questions(8 questions)</u></p><img src='./maths2(6).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths26(1)' name='maths26(1)'> <label for='maths26(1)'>A</label><br><input type='radio' id='maths26(2)' name='maths26(2)'> <label for='maths26(2)'>B</label><br><input type='radio' id='maths26(3)' name='maths26(3)'> <label for='maths26(3)'>C</label><br><input type='radio' id='maths26(4)' name='maths26(4)'> <label for='maths26(4)'>D</label></div></form>`; m2q7.innerHTML = `<form><img src='./maths2(7).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths27(1)' name='maths27(1)'> <label for='maths27(1)'>A</label><br><input type='radio' id='maths27(2)' name='maths27(2)'> <label for='maths27(2)'>B</label><br><input type='radio' id='maths27(3)' name='maths27(3)'> <label for='maths27(3)'>C</label><br><input type='radio' id='maths27(4)' name='maths27(4)'> <label for='maths27(4)'>D</label></div></form>`;
+        m2q8.innerHTML = `<form><img src='./maths2(8).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths28(1)' name='maths28(1)'> <label for='maths28(1)'>A</label><br><input type='radio' id='maths28(2)' name='maths28(2)'> <label for='maths28(2)'>B</label><br><input type='radio' id='maths28(3)' name='maths28(3)'> <label for='maths28(3)'>C</label><br><input type='radio' id='maths28(4)' name='maths28(4)'> <label for='maths28(4)'>D</label></div></form>`; m2q9.innerHTML = `<form><img src='./maths2(9).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths29(1)' name='maths29(1)'> <label for='maths29(1)'>A</label><br><input type='radio' id='maths29(2)' name='maths29(2)'> <label for='maths29(2)'>B</label><br><input type='radio' id='maths29(3)' name='maths29(3)'> <label for='maths29(3)'>C</label><br><input type='radio' id='maths29(4)' name='maths29(4)'> <label for='maths29(4)'>D</label></div></form>`;
+        m2q10.innerHTML = `<form><img src='./maths2(10).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths210(1)' name='maths210(1)'> <label for='maths210(1)'>A</label><br><input type='radio' id='maths210(2)' name='maths210(2)'> <label for='maths210(2)'>B</label><br><input type='radio' id='maths210(3)' name='maths210(3)'> <label for='maths210(3)'>C</label><br><input type='radio' id='maths210(4)' name='maths210(4)'> <label for='maths210(4)'>D</label></div></form>`; m2q11.innerHTML = `<form><img src='./maths2(11).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths211(1)' name='maths211(1)'> <label for='maths211(1)'>A</label><br><input type='radio' id='maths211(2)' name='maths211(2)'> <label for='maths211(2)'>B</label><br><input type='radio' id='maths211(3)' name='maths211(3)'> <label for='maths211(3)'>C</label><br><input type='radio' id='maths211(4)' name='maths211(4)'> <label for='maths211(4)'>D</label></div></form>`;
+        m2q12.innerHTML = `<form><img src='./maths2(12).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths212(1)' name='maths212(1)'> <label for='maths212(1)'>A</label><br><input type='radio' id='maths212(2)' name='maths212(2)'> <label for='maths212(2)'>B</label><br><input type='radio' id='maths212(3)' name='maths212(3)'> <label for='maths212(3)'>C</label><br><input type='radio' id='maths212(4)' name='maths212(4)'> <label for='maths212(4)'>D</label></div></form>`; m2q13.innerHTML = `<form><img src='./maths2(13).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='maths213(1)' name='maths213(1)'> <label for='maths213(1)'>A</label><br><input type='radio' id='maths213(2)' name='maths213(2)'> <label for='maths213(2)'>B</label><br><input type='radio' id='maths213(3)' name='maths213(3)'> <label for='maths213(3)'>C</label><br><input type='radio' id='maths213(4)' name='maths213(4)'> <label for='maths213(4)'>D</label></div></form>`;
+        m2q14.innerHTML = `<form><p style='text-align:left;color:white;'><u>Single Integer type Questions(5 questions)</u></p><img src='./maths2(14).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='maths2(14)'></div></form>`; m2q15.innerHTML = `<form><img src='./maths2(15).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='maths2(15)'></div></form>`;
+        m2q16.innerHTML = `<form><img src='./maths2(16).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='maths2(16)'></div></form>`; m2q17.innerHTML = `<form><img src='./maths2(17).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='maths2(17)'></div></form>`; m2q18.innerHTML = `<form><img src='./maths2(18).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='maths2(18)'></div></form>`;
+        const p1q1 = document.createElement('div'); p1q1.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q1.innerHTML = "<form><p style='text-align:left;color:white;'><u>Single Option Correct Type Questions(5 questions)</u></p><img src='./physics1(1).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics11(1)' name='physics1(1)'> <label for='physics11(1)'>A</label><br><input type='radio' id='physics11(2)' name='physics1(1)'> <label for='physics11(2)'>B</label><br><input type='radio' id='physics11(3)' name='physics1(1)'> <label for='physics11(3)'>C</label><br><input type='radio' id='physics11(4)' name='physics1(1)'> <label for='physics11(4)'>D</label></div></form>";
+        const p1q2 = document.createElement('div'); p1q2.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q2.innerHTML = "<form><img src='./physics1(2).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics12(1)' name='physics1(2)'> <label for='physics12(1)'>A</label><br><input type='radio' id='physics12(2)' name='physics1(2)'> <label for='physics12(2)'>B</label><br><input type='radio' id='physics12(3)' name='physics1(2)'> <label for='physics12(3)'>C</label><br><input type='radio' id='physics12(4)' name='physics1(2)'> <label for='physics12(4)'>D</label></div></form>";
+        const p1q3 = document.createElement('div'); p1q3.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q3.innerHTML = "<form><img src='./physics1(3).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics13(1)' name='physics1(3)'> <label for='physics13(1)'>A</label><br><input type='radio' id='physics13(2)' name='physics1(3)'> <label for='physics13(2)'>B</label><br><input type='radio' id='physics13(3)' name='physics1(3)'> <label for='physics13(3)'>C</label><br><input type='radio' id='physics13(4)' name='physics1(3)'> <label for='physics13(4)'>D</label></div></form>";
+        const p1q4 = document.createElement('div'); p1q4.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q4.innerHTML = "<form><img src='./physics1(4).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics14(1)' name='physics1(4)'> <label for='physics14(1)'>A</label><br><input type='radio' id='physics14(2)' name='physics1(4)'> <label for='physics14(2)'>B</label><br><input type='radio' id='physics14(3)' name='physics1(4)'> <label for='physics14(3)'>C</label><br><input type='radio' id='physics14(4)' name='physics1(4)'> <label for='physics14(4)'>D</label></div></form>";
+        const p1q5 = document.createElement('div'); p1q5.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q5.innerHTML = "<form><img src='./physics1(5).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics15(1)' name='physics1(5)'> <label for='physics15(1)'>A</label><br><input type='radio' id='physics15(2)' name='physics1(5)'> <label for='physics15(2)'>B</label><br><input type='radio' id='physics15(3)' name='physics1(5)'> <label for='physics15(3)'>C</label><br><input type='radio' id='physics15(4)' name='physics1(5)'> <label for='physics15(4)'>D</label></div></form>";
+        const p1q6 = document.createElement('div'); p1q6.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q6.innerHTML = "<form><p style='text-align:left;color:white;'><u>(Multiple correct options type(8 questions))</u></p><img src='./physics1(6).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics16(1)' name='physics16(1)'> <label for='physics16(1)'>A</label><br><input type='radio' id='physics16(2)' name='physics16(2)'> <label for='physics16(2)'>B</label><br><input type='radio' id='physics16(3)' name='physics16(3)'> <label for='physics16(3)'>C</label><br><input type='radio' id='physics16(4)' name='physics16(4)'> <label for='physics16(4)'>D</label></div></form>";
+        const p1q7 = document.createElement('div'); p1q7.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q7.innerHTML = "<form><img src='./physics1(7).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics17(1)' name='physics17(1)'> <label for='physics17(1)'>A</label><br><input type='radio' id='physics17(2)' name='physics17(2)'> <label for='physics17(2)'>B</label><br><input type='radio' id='physics17(3)' name='physics17(3)'> <label for='physics17(3)'>C</label><br><input type='radio' id='physics17(4)' name='physics17(4)'> <label for='physics17(4)'>D</label></div></form>";
+        const p1q8 = document.createElement('div'); p1q8.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q8.innerHTML = "<form><img src='./physics1(8).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics18(1)' name='physics18(1)'> <label for='physics18(1)'>A</label><br><input type='radio' id='physics18(2)' name='physics18(2)'> <label for='physics18(2)'>B</label><br><input type='radio' id='physics18(3)' name='physics18(3)'> <label for='physics18(3)'>C</label><br><input type='radio' id='physics18(4)' name='physics18(4)'> <label for='physics18(4)'>D</label></div></form>";
+        const p1q9 = document.createElement('div'); p1q9.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q9.innerHTML = "<form><img src='./physics1(9).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics19(1)' name='physics19(1)'> <label for='physics19(1)'>A</label><br><input type='radio' id='physics19(2)' name='physics19(2)'> <label for='physics19(2)'>B</label><br><input type='radio' id='physics19(3)' name='physics19(3)'> <label for='physics19(3)'>C</label><br><input type='radio' id='physics19(4)' name='physics19(4)'> <label for='physics19(4)'>D</label></div></form>";
+        const p1q10 = document.createElement('div'); p1q10.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q10.innerHTML = "<form><img src='./physics1(10).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics110(1)' name='physics110(1)'> <label for='physics110(1)'>A</label><br><input type='radio' id='physics110(2)' name='physics110(2)'> <label for='physics110(2)'>B</label><br><input type='radio' id='physics110(3)' name='physics110(3)'> <label for='physics110(3)'>C</label><br><input type='radio' id='physics110(4)' name='physics110(4)'> <label for='physics110(4)'>D</label></div></form>";
+        const p1q11 = document.createElement('div'); p1q11.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q11.innerHTML = "<form><img src='./physics1(11).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics111(1)' name='physics111(1)'> <label for='physics111(1)'>A</label><br><input type='radio' id='physics111(2)' name='physics111(2)'> <label for='physics111(2)'>B</label><br><input type='radio' id='physics111(3)' name='physics111(3)'> <label for='physics111(3)'>C</label><br><input type='radio' id='physics111(4)' name='physics111(4)'> <label for='physics111(4)'>D</label></div></form>";
+        const p1q12 = document.createElement('div'); p1q12.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q12.innerHTML = "<form><img src='./physics1(12).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics112(1)' name='physics112(1)'> <label for='physics112(1)'>A</label><br><input type='radio' id='physics112(2)' name='physics112(2)'> <label for='physics112(2)'>B</label><br><input type='radio' id='physics112(3)' name='physics112(3)'> <label for='physics112(3)'>C</label><br><input type='radio' id='physics112(4)' name='physics112(4)'> <label for='physics112(4)'>D</label></div></form>";
+        const p1q13 = document.createElement('div'); p1q13.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q13.innerHTML = "<form><img src='./physics1(13).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='radio' id='physics113(1)' name='physics113(1)'> <label for='physics113(1)'>A</label><br><input type='radio' id='physics113(2)' name='physics113(2)'> <label for='physics113(2)'>B</label><br><input type='radio' id='physics113(3)' name='physics113(3)'> <label for='physics113(3)'>C</label><br><input type='radio' id='physics113(4)' name='physics113(4)'> <label for='physics113(4)'>D</label></div></form>";
+        const p1q14 = document.createElement('div'); p1q14.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q14.innerHTML = "<form><p style='text-align:left;color:white;'><u>(Single Integer type questions(5 questions))</u></p><img src='./physics1(14).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='physics1(14)' name='physics1(14)'></div></form>";
+        const p1q15 = document.createElement('div'); p1q15.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q15.innerHTML = "<form><img src='./physics1(15).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='physics1(15)' name='physics1(15)'></div></form>";
+        const p1q16 = document.createElement('div'); p1q16.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q16.innerHTML = "<form><img src='./physics1(16).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='physics1(16)' name='physics1(16)'></div></form>";
+        const p1q17 = document.createElement('div'); p1q17.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q17.innerHTML = "<form><img src='./physics1(17).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='physics1(17)' name='physics1(17)'></div></form>";
+        const p1q18 = document.createElement('div'); p1q18.style = 'display:flex;flex-direction:column;justify-content:space-between;box-sizing:border-box;min-width:fit-content;width:100%;min-height:fit-content;'; p1q18.innerHTML = "<form><img src='./physics1(18).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><div id='questionOption' style='margin-top:auto;'><br><input type='Number' id='physics1(18)' name='physics1(18)'></div></form>";
+        const c1q1 = document.createElement("div"); c1q1.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q1.innerHTML = "<form><p style='text-align:left;color:white'><u>Single Option Correct Type Questions(5 questions)</u></p><img src='./chemistry1(1).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry11(1)' name='chemistry1(1)'> <label for='chemistry11(1)'>A</label><br><input type='radio' id='chemistry11(2)' name='chemistry1(1)'> <label for='chemistry11(2)'>B</label><br><input type='radio' id='chemistry11(3)' name='chemistry1(1)'> <label for='chemistry11(3)'>C</label><br><input type='radio' id='chemistry11(4)' name='chemistry1(1)'> <label for='chemistry11(4)'>D</label></div></form>";
+        const c1q2 = document.createElement("div"); c1q2.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q2.innerHTML = "<form><img src='./chemistry1(2).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry12(1)' name='chemistry1(2)'> <label for='chemistry12(1)'>A</label><br><input type='radio' id='chemistry12(2)' name='chemistry1(2)'> <label for='chemistry12(2)'>B</label><br><input type='radio' id='chemistry12(3)' name='chemistry1(2)'> <label for='chemistry12(3)'>C</label><br><input type='radio' id='chemistry12(4)' name='chemistry1(2)'> <label for='chemistry12(4)'>D</label></div></form>";
+        const c1q3 = document.createElement("div"); c1q3.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q3.innerHTML = "<form><img src='./chemistry1(3).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry13(1)' name='chemistry1(3)'> <label for='chemistry13(1)'>A</label><br><input type='radio' id='chemistry13(2)' name='chemistry1(3)'> <label for='chemistry13(2)'>B</label><br><input type='radio' id='chemistry13(3)' name='chemistry1(3)'> <label for='chemistry13(3)'>C</label><br><input type='radio' id='chemistry13(4)' name='chemistry1(3)'> <label for='chemistry13(4)'>D</label></div></form>";
+        const c1q4 = document.createElement("div"); c1q4.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q4.innerHTML = "<form><img src='./chemistry1(4).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry14(1)' name='chemistry1(4)'> <label for='chemistry14(1)'>A</label><br><input type='radio' id='chemistry14(2)' name='chemistry1(4)'> <label for='chemistry14(2)'>B</label><br><input type='radio' id='chemistry14(3)' name='chemistry1(4)'> <label for='chemistry14(3)'>C</label><br><input type='radio' id='chemistry14(4)' name='chemistry1(4)'> <label for='chemistry14(4)'>D</label></div></form>";
+        const c1q5 = document.createElement("div"); c1q5.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q5.innerHTML = "<form><img src='./chemistry1(5).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry15(1)' name='chemistry1(5)'> <label for='chemistry15(1)'>A</label><br><input type='radio' id='chemistry15(2)' name='chemistry1(5)'> <label for='chemistry15(2)'>B</label><br><input type='radio' id='chemistry15(3)' name='chemistry1(5)'> <label for='chemistry15(3)'>C</label><br><input type='radio' id='chemistry15(4)' name='chemistry1(5)'> <label for='chemistry15(4)'>D</label></div></form>";
+        const c1q6 = document.createElement("div"); c1q6.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q6.innerHTML = "<form><p style='text-align:left;color:white;'>(Multiple Option Correct type Questions(8 questions))</p><img src='./chemistry1(6).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry16(1)' name='chemistry16(1)'> <label for='chemistry16(1)'>A</label><br><input type='radio' id='chemistry16(2)' name='chemistry16(2)'> <label for='chemistry16(2)'>B</label><br><input type='radio' id='chemistry16(3)' name='chemistry16(3)'> <label for='chemistry16(3)'>C</label><br><input type='radio' id='chemistry16(4)' name='chemistry16(4)'> <label for='chemistry16(4)'>D</label></div></form>";
+        const c1q7 = document.createElement("div"); c1q7.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q7.innerHTML = "<form><img src='./chemistry1(7).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry17(1)' name='chemistry17(1)'> <label for='chemistry17(1)'>A</label><br><input type='radio' id='chemistry17(2)' name='chemistry17(2)'> <label for='chemistry17(2)'>B</label><br><input type='radio' id='chemistry17(3)' name='chemistry17(3)'> <label for='chemistry17(3)'>C</label><br><input type='radio' id='chemistry17(4)' name='chemistry17(4)'> <label for='chemistry17(4)'>D</label></div></form>";
+        const c1q8 = document.createElement("div"); c1q8.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q8.innerHTML = "<form><img src='./chemistry1(8).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry18(1)' name='chemistry18(1)'> <label for='chemistry18(1)'>A</label><br><input type='radio' id='chemistry18(2)' name='chemistry18(2)'> <label for='chemistry18(2)'>B</label><br><input type='radio' id='chemistry18(3)' name='chemistry18(3)'> <label for='chemistry18(3)'>C</label><br><input type='radio' id='chemistry18(4)' name='chemistry18(4)'> <label for='chemistry18(4)'>D</label></div></form>";
+        const c1q9 = document.createElement("div"); c1q9.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q9.innerHTML = "<form><img src='./chemistry1(9).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry19(1)' name='chemistry19(1)'> <label for='chemistry19(1)'>A</label><br><input type='radio' id='chemistry19(2)' name='chemistry19(2)'> <label for='chemistry19(2)'>B</label><br><input type='radio' id='chemistry19(3)' name='chemistry19(3)'> <label for='chemistry19(3)'>C</label><br><input type='radio' id='chemistry19(4)' name='chemistry19(4)'> <label for='chemistry19(4)'>D</label></div></form>";
+        const c1q10 = document.createElement("div"); c1q10.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q10.innerHTML = "<form><img src='./chemistry1(10).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry110(1)' name='chemistry110(1)'> <label for='chemistry110(1)'>A</label><br><input type='radio' id='chemistry110(2)' name='chemistry110(2)'> <label for='chemistry110(2)'>B</label><br><input type='radio' id='chemistry110(3)' name='chemistry110(3)'> <label for='chemistry110(3)'>C</label><br><input type='radio' id='chemistry110(4)' name='chemistry110(4)'> <label for='chemistry110(4)'>D</label></div></form>";
+        const c1q11 = document.createElement("div"); c1q11.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q11.innerHTML = "<form><img src='./chemistry1(11).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry111(1)' name='chemistry111(1)'> <label for='chemistry111(1)'>A</label><br><input type='radio' id='chemistry111(2)' name='chemistry111(2)'> <label for='chemistry111(2)'>B</label><br><input type='radio' id='chemistry111(3)' name='chemistry111(3)'> <label for='chemistry111(3)'>C</label><br><input type='radio' id='chemistry111(4)' name='chemistry111(4)'> <label for='chemistry111(4)'>D</label></div></form>";
+        const c1q12 = document.createElement("div"); c1q12.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q12.innerHTML = "<form><img src='./chemistry1(12).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry112(1)' name='chemistry112(1)'> <label for='chemistry112(1)'>A</label><br><input type='radio' id='chemistry112(2)' name='chemistry112(2)'> <label for='chemistry112(2)'>B</label><br><input type='radio' id='chemistry112(3)' name='chemistry112(3)'> <label for='chemistry112(3)'>C</label><br><input type='radio' id='chemistry112(4)' name='chemistry112(4)'> <label for='chemistry112(4)'>D</label></div></form>";
+        const c1q13 = document.createElement("div"); c1q13.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q13.innerHTML = "<form><img src='./chemistry1(13).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry113(1)' name='chemistry113(1)'> <label for='chemistry113(1)'>A</label><br><input type='radio' id='chemistry113(2)' name='chemistry113(2)'> <label for='chemistry113(2)'>B</label><br><input type='radio' id='chemistry113(3)' name='chemistry113(3)'> <label for='chemistry113(3)'>C</label><br><input type='radio' id='chemistry113(4)' name='chemistry113(4)'> <label for='chemistry113(4)'>D</label></div></form>";
+        const c1q14 = document.createElement("div"); c1q14.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q14.innerHTML = "<form><p style='text-align:left;color:white;'>(Single Integer Type Questions(5 questions))</p><img src='./chemistry1(14).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(14)' name='chemistry1(14)'></div></form>";
+        const c1q15 = document.createElement("div"); c1q15.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q15.innerHTML = "<form><img src='./chemistry1(15).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(15)' name='chemistry1(15)'></div></form>";
+        const c1q16 = document.createElement("div"); c1q16.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q16.innerHTML = "<form><img src='./chemistry1(16).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(16)' name='chemistry1(16)'></div></form>";
+        const c1q17 = document.createElement("div"); c1q17.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q17.innerHTML = "<form><img src='./chemistry1(17).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(17)' name='chemistry1(17)'></div></form>";
+        const c1q18 = document.createElement("div"); c1q18.style = "display:flex;flex-direction:column;justify-content:space-between;min-width:fit-content;width:100%;min-height:fit-content;box-sizing:border-box;"; c1q18.innerHTML = "<form><img src='./chemistry1(18).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(18)' name='chemistry1(18)'></div></form>";
+        const p2q1 = document.createElement('div'); p2q1.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q1.innerHTML = "<form><p style='text-align:left;color:white;'><u>Single Option Correct Type Questions(5 questions)</u></p><img src='./physics2(1).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics21(1)' name='physics2(1)'> <label for='physics21(1)'>A</label><br><input type='radio' id='physics21(2)' name='physics2(1)'> <label for='physics21(2)'>B</label><br><input type='radio' id='physics21(3)' name='physics2(1)'> <label for='physics21(3)'>C</label><br><input type='radio' id='physics21(4)' name='physics2(1)'> <label for='physics21(4)'>D</label></div></form>";
+        const p2q2 = document.createElement('div'); p2q2.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q2.innerHTML = "<form><img src='./physics2(2).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics22(1)' name='physics2(2)'> <label for='physics22(1)'>A</label><br><input type='radio' id='physics22(2)' name='physics2(2)'> <label for='physics22(2)'>B</label><br><input type='radio' id='physics22(3)' name='physics2(2)'> <label for='physics22(3)'>C</label><br><input type='radio' id='physics22(4)' name='physics2(2)'> <label for='physics22(4)'>D</label></div></form>";
+        const p2q3 = document.createElement('div'); p2q3.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q3.innerHTML = "<form><img src='./physics2(3).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics23(1)' name='physics2(3)'> <label for='physics23(1)'>A</label><br><input type='radio' id='physics23(2)' name='physics2(3)'> <label for='physics23(2)'>B</label><br><input type='radio' id='physics23(3)' name='physics2(3)'> <label for='physics23(3)'>C</label><br><input type='radio' id='physics23(4)' name='physics2(3)'> <label for='physics23(4)'>D</label></div></form>";
+        const p2q4 = document.createElement('div'); p2q4.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q4.innerHTML = "<form><img src='./physics2(4).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics24(1)' name='physics2(4)'> <label for='physics24(1)'>A</label><br><input type='radio' id='physics24(2)' name='physics2(4)'> <label for='physics24(2)'>B</label><br><input type='radio' id='physics24(3)' name='physics2(4)'> <label for='physics24(3)'>C</label><br><input type='radio' id='physics24(4)' name='physics2(4)'> <label for='physics24(4)'>D</label></div></form>";
+        const p2q5 = document.createElement('div'); p2q5.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q5.innerHTML = "<form><img src='./physics2(5).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics25(1)' name='physics2(5)'> <label for='physics25(1)'>A</label><br><input type='radio' id='physics25(2)' name='physics2(5)'> <label for='physics25(2)'>B</label><br><input type='radio' id='physics25(3)' name='physics2(5)'> <label for='physics25(3)'>C</label><br><input type='radio' id='physics25(4)' name='physics2(5)'> <label for='physics25(4)'>D</label></div></form>";
+        const p2q6 = document.createElement('div'); p2q6.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q6.innerHTML = "<form><p style='text-align:left;color:white;'><u>(Multiple correct options type(8 questions))</u></p><img src='./physics2(6).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics26(1)' name='physics26(1)'> <label for='physics26(1)'>A</label><br><input type='radio' id='physics26(2)' name='physics26(2)'> <label for='physics26(2)'>B</label><br><input type='radio' id='physics26(3)' name='physics26(3)'> <label for='physics26(3)'>C</label><br><input type='radio' id='physics26(4)' name='physics26(4)'> <label>D</label></div></form>";
+        const p2q7 = document.createElement('div'); p2q7.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q7.innerHTML = "<form><img src='./physics2(7).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics27(1)' name='physics27(1)'> <label for='physics27(1)'>A</label><br><input type='radio' id='physics27(2)' name='physics27(2)'> <label for='physics27(2)'>B</label><br><input type='radio' id='physics27(3)' name='physics27(3)'> <label for='physics27(3)'>C</label><br><input type='radio' id='physics27(4)' name='physics28(4)'> <label for='physics27(4)'>D</label></div></form>";
+        const p2q8 = document.createElement('div'); p2q8.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q8.innerHTML = "<form><img src='./physics2(8).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics28(1)' name='physics28(1)'> <label for='physics28(1)'>A</label><br><input type='radio' id='physics28(2)' name='physics28(2)'> <label for='physics28(2)'>B</label><br><input type='radio' id='physics28(3)' name='physics28(3)'> <label for='physics28(3)'>C</label><br><input type='radio' id='physics28(4)' name='physics28(4)'> <label for='physics28(4)'>D</label></div></form>";
+        const p2q9 = document.createElement('div'); p2q9.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q9.innerHTML = "<form><img src='./physics2(9).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics29(1)' name='physics29(1)'> <label for='physics29(1)'>A</label><br><input type='radio' id='physics29(2)' name='physics29(2)'> <label for='physics29(2)'>B</label><br><input type='radio' id='physics29(3)' name='physics29(3)'> <label for='physics29(3)'>C</label><br><input type='radio' id='physics29(4)' name='physics29(4)'> <label for='physics29(4)'>D</label></div></form>";
+        const p2q10 = document.createElement('div'); p2q10.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q10.innerHTML = "<form><img src='./physics2(10).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics210(1)' name='physics210(1)'> <label for='physics210(1)'>A</label><br><input type='radio' id='physics210(2)' name='physics210(2)'> <label for='physics210(2)'>B</label><br><input type='radio' id='physics210(3)' name='physics210(3)'> <label for='physics210(3)'>C</label><br><input type='radio' id='physics210(4)' name='physics210(4)'> <label for='physics210(4)'>D</label></div></form>";
+        const p2q11 = document.createElement('div'); p2q11.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q11.innerHTML = "<form><img src='./physics2(11).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics211(1)' name='physics211(1)'> <label for='physics211(1)'>A</label><br><input type='radio' id='physics211(2)' name='physics211(2)'> <label for='physics211(2)'>B</label><br><input type='radio' id='physics211(3)' name='physics211(3)'> <label for='physics211(3)'>C</label><br><input type='radio' id='physics211(4)' name='physics211(4)'> <label for='physics211(4)'>D</label></div></form>";
+        const p2q12 = document.createElement('div'); p2q12.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q12.innerHTML = "<form><img src='./physics2(12).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics212(1)' name='physics212(1)'> <label for='physics212(1)'>A</label><br><input type='radio' id='physics212(2)' name='physics212(2)'> <label for='physics212(2)'>B</label><br><input type='radio' id='physics212(3)' name='physics212(3)'> <label for='physics212(3)'>C</label><br><input type='radio' id='physics212(4)' name='physics212(4)'> <label for='physics212(4)'>D</label></div></form>";
+        const p2q13 = document.createElement('div'); p2q13.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q13.innerHTML = "<form><img src='./physics2(13).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='physics213(1)' name='physics213(1)'> <label for='physics213(1)'>A</label><br><input type='radio' id='physics213(2)' name='physics213(2)'> <label for='physics213(2)'>B</label><br><input type='radio' id='physics213(3)' name='physics213(3)'> <label for='physics213(3)'>C</label><br><input type='radio' id='physics213(4)' name='physics213(4)'> <label for='physics213(4)'>D</label></div></form>";
+        const p2q14 = document.createElement('div'); p2q14.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q14.innerHTML = "<form><p style:'text-align:left;color:white;'><u>(Single Integer type questions(5 questions))</u></p><img src='./physics2(14).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='physics2(14)' name='physics2(14)'></div></form>";
+        const p2q15 = document.createElement('div'); p2q15.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q15.innerHTML = "<form><img src='./physics2(15).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='physics2(15)' name='physics2(15)'></div></form>";
+        const p2q16 = document.createElement('div'); p2q16.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q16.innerHTML = "<form><img src='./physics2(16).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='physics2(16)' name='physics2(16)'></div></form>";
+        const p2q17 = document.createElement('div'); p2q17.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q17.innerHTML = "<form><img src='./physics2(17).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='physics2(7)' name='physics2(17)'></div></form>";
+        const p2q18 = document.createElement('div'); p2q18.style = "display:flex;flex-direction:column;width:100%;min-width:fit-content;min-height:fit-content;justify-content:space-between;box-sizing:border-box;"; p2q18.innerHTML = "<form><img src='./physics2(18).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='physics2(18)' name='physics2(18)'></div></form>";
+        const c2q1 = document.createElement("div"); c2q1.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q1.innerHTML = "<form><p style='text-align:left;color:white'><u>Single Option Correct Type Questions(5 questions)</u></p><img src='./chemistry1(1).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry11(1)' name='chemistry1(1)'> <label for='chemistry11(1)'>A</label><br><input type='radio' id='chemistry11(2)' name='chemistry1(1)'> <label for='chemistry11(2)'>B</label><br><input type='radio' id='chemistry11(3)' name='chemistry1(1)'> <label for='chemistry11(3)'>C</label><br><input type='radio' id='chemistry11(4)' name='chemistry1(1)'> <label for='chemistry11(4)'>D</label></div></form>";
+        const c2q2 = document.createElement("div"); c2q2.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q2.innerHTML = "<form><img src='./chemistry1(2).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry12(1)' name='chemistry1(2)'> <label for='chemistry12(1)'>A</label><br><input type='radio' id='chemistry12(2)' name='chemistry1(2)'> <label for='chemistry12(2)'>B</label><br><input type='radio' id='chemistry12(3)' name='chemistry1(2)'> <label for='chemistry12(3)'>C</label><br><input type='radio' id='chemistry12(4)' name='chemistry1(2)'> <label for='chemistry12(4)'>D</label></div></form>";
+        const c2q3 = document.createElement("div"); c2q3.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q3.innerHTML = "<form><img src='./chemistry1(3).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry13(1)' name='chemistry1(3)'> <label for='chemistry13(1)'>A</label><br><input type='radio' id='chemistry13(2)' name='chemistry1(3)'> <label for='chemistry13(2)'>B</label><br><input type='radio' id='chemistry13(3)' name='chemistry1(3)'> <label for='chemistry13(3)'>C</label><br><input type='radio' id='chemistry13(4)' name='chemistry1(3)'> <label for='chemistry13(4)'>D</label></div></form>";
+        const c2q4 = document.createElement("div"); c2q4.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q4.innerHTML = "<form><img src='./chemistry1(4).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry14(1)' name='chemistry1(4)'> <label for='chemistry14(1)'>A</label><br><input type='radio' id='chemistry14(2)' name='chemistry1(4)'> <label for='chemistry14(2)'>B</label><br><input type='radio' id='chemistry14(3)' name='chemistry1(4)'> <label for='chemistry14(3)'>C</label><br><input type='radio' id='chemistry14(4)' name='chemistry1(4)'> <label for='chemistry14(4)'>D</label></div></form>";
+        const c2q5 = document.createElement("div"); c2q5.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q5.innerHTML = "<form><img src='./chemistry1(5).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry15(1)' name='chemistry1(5)'> <label for='chemistry15(1)'>A</label><br><input type='radio' id='chemistry15(2)' name='chemistry1(5)'> <label for='chemistry15(2)'>B</label><br><input type='radio' id='chemistry15(3)' name='chemistry1(5)'> <label for='chemistry15(3)'>C</label><br><input type='radio' id='chemistry15(4)' name='chemistry1(5)'> <label for='chemistry15(4)'>D</label></div></form>";
+        const c2q6 = document.createElement("div"); c2q6.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q6.innerHTML = "<form><p style='text-align:left;color:white;'>(Multiple Option Correct type Questions(8 questions))</p><img src='./chemistry1(6).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry16(1)' name='chemistry1(6)'> <label for='chemistry16(1)'>A</label><br><input type='radio' id='chemistry16(2)' name='chemistry1(6)'> <label for='chemistry16(2)'>B</label><br><input type='radio' id='chemistry16(3)' name='chemistry1(6)'> <label for='chemistry16(3)'>C</label><br><input type='radio' id='chemistry16(4)' name='chemistry16(4)'> <label for='chemistry16(4)'>D</label></div></form>";
+        const c2q7 = document.createElement("div"); c2q7.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q7.innerHTML = "<form><img src='./chemistry1(7).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry17(1)' name='chemistry17(1)'> <label for='chemistry17(1)'>A</label><br><input type='radio' id='chemistry17(2)' name='chemistry17(2)'> <label for='chemistry17(2)'>B</label><br><input type='radio' id='chemistry17(3)' name='chemistry17(3)'> <label for='chemistry17(3)'>C</label><br><input type='radio' id='chemistry17(4)' name='chemistry17(4)'> <label for='chemistry17(4)'>D</label></div></form>";
+        const c2q8 = document.createElement("div"); c2q8.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q8.innerHTML = "<form><img src='./chemistry1(8).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry18(1)' name='chemistry18(1)'> <label for='chemistry18(1)'>A</label><br><input type='radio' id='chemistry18(2)' name='chemistry18(2)'> <label for='chemistry18(2)'>B</label><br><input type='radio' id='chemistry18(3)' name='chemistry18(3)'> <label for='chemistry18(3)'>C</label><br><input type='radio' id='chemistry18(4)' name='chemistry18(4)'> <label for='chemistry18(4)'>D</label></div></form>";
+        const c2q9 = document.createElement("div"); c2q9.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q9.innerHTML = "<form><img src='./chemistry1(9).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry19(1)' name='chemistry19(1)'> <label for='chemistry19(1)'>A</label><br><input type='radio' id='chemistry19(2)' name='chemistry19(2)'> <label for='chemistry19(2)'>B</label><br><input type='radio' id='chemistry19(3)' name='chemistry19(3)'> <label for='chemistry19(3)'>C</label><br><input type='radio' id='chemistry19(4)' name='chemistry19(4)'> <label for='chemistry19(4)'>D</label></div></form>";
+        const c2q10 = document.createElement("div"); c2q10.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q10.innerHTML = "<form><img src='./chemistry1(10).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry110(1)' name='chemistry110(1)'> <label for='chemistry110(1)'>A</label><br><input type='radio' id='chemistry110(2)' name='chemistry110(2)'> <label for='chemistry110(2)'>B</label><br><input type='radio' id='chemistry110(3)' name='chemistry110(3)'> <label for='chemistry110(3)'>C</label><br><input type='radio' id='chemistry110(4)' name='chemistry110(4)'> <label for='chemistry110(4)'>D</label></div></form>";
+        const c2q11 = document.createElement("div"); c2q11.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q11.innerHTML = "<form><img src='./chemistry1(11).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry111(1)' name='chemistry111(1)'> <label for='chemistry111(1)'>A</label><br><input type='radio' id='chemistry111(2)' name='chemistry111(2)'> <label for='chemistry111(2)'>B</label><br><input type='radio' id='chemistry111(3)' name='chemistry111(3)'> <label for='chemistry111(3)'>C</label><br><input type='radio' id='chemistry111(4)' name='chemistry111(4)'> <label for='chemistry111(4)'>D</label></div></form>";
+        const c2q12 = document.createElement("div"); c2q12.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q12.innerHTML = "<form><img src='./chemistry1(12).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry112(1)' name='chemistry112(1)'> <label for='chemistry112(1)'>A</label><br><input type='radio' id='chemistry112(2)' name='chemistry112(2)'> <label for='chemistry112(2)'>B</label><br><input type='radio' id='chemistry112(3)' name='chemistry112(3)'> <label for='chemistry112(3)'>C</label><br><input type='radio' id='chemistry112(4)' name='chemistry112(4)'> <label for='chemistry112(4)'>D</label></div></form>";
+        const c2q13 = document.createElement("div"); c2q13.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q13.innerHTML = "<form><img src='./chemistry1(13).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='radio' id='chemistry113(1)' name='chemistry113(1)'> <label for='chemistry113(1)'>A</label><br><input type='radio' id='chemistry113(2)' name='chemistry113(2)'> <label for='chemistry113(2)'>B</label><br><input type='radio' id='chemistry113(3)' name='chemistry113(3)'> <label for='chemistry113(3)'>C</label><br><input type='radio' id='chemistry113(4)' name='chemistry113(4)'> <label for='chemistry113(4)'>D</label></div></form>";
+        const c2q14 = document.createElement("div"); c2q14.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q14.innerHTML = "<form><p style='text-align:left;color:white;'>(Single Integer Type Questions(5 questions))</p><img src='./chemistry1(14).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(14)' name='chemistry1(14)'></div></form>";
+        const c2q15 = document.createElement("div"); c2q15.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q15.innerHTML = "<form><img src='./chemistry1(15).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(15)' name='chemistry1(15)'></div></form>";
+        const c2q16 = document.createElement("div"); c2q16.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q16.innerHTML = "<form><img src='./chemistry1(16).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(16)' name='chemistry1(16)'></div></form>";
+        const c2q17 = document.createElement("div"); c2q17.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q17.innerHTML = "<form><img src='./chemistry1(17).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(17)' name='chemistry1(17)'></div></form>";
+        const c2q18 = document.createElement("div"); c2q18.style = "display: flex; flex-direction: column; justify-content: space-between; width: 100%; min-width: fit-content; min-height: fit-content; box-sizing: border-box;"; c2q18.innerHTML = "<form><img src='./chemistry1(18).jpg' load='eager' style='max-width:100%;height:auto;object-fit:contain;'><br><div id='questionOption' style='margin-top:auto'><input type='Number' id='chemistry1(18)' name='chemistry1(18)'></div></form>";
+        const maths1 = [m1q1, m1q2, m1q3, m1q4, m1q5, m1q6, m1q7, m1q8, m1q9, m1q10, m1q11, m1q12, m1q13, m1q14, m1q15, m1q16, m1q17, m1q18]; const maths1Answer = [['maths11(1)'], ['maths12(2)'], ['maths13(3)'], ['maths14(2)'], ['maths15(3)'], ['maths16(2)'], ['maths17(1)', 'maths17(2)', 'maths17(3)', 'maths17(4)'], ['maths18(1)', 'maths18(4)'], ['maths19(3)'], ['maths110(2)', 'maths110(4)'], ['maths111(1)', 'maths111(2)', 'maths111(3)'], ['maths112(2)'], ['maths113(2)', 'maths113(3)'], '0.18', '7', '6', '0.5', '2'];
+        const maths2 = [m2q1, m2q2, m2q3, m2q4, m2q5, m2q6, m2q7, m2q8, m2q9, m2q10, m2q11, m2q12, m2q13, m2q14, m2q15, m2q16, m2q17, m2q18]; const maths2Answer = [['maths21(3)'], ['maths22(2)'], ['maths23(4)'], ['maths24(1)'], ['maths25(3)'], ['maths26(1)', 'maths26(2)', 'maths26(4)'], ['maths27(1)', 'maths27(3)'], ['maths28(1)', 'maths28(3)'], ['maths29(1)', 'maths29(4)'], ['maths210(1)', 'maths210(3)'], ['maths211(3)'], ['maths212(2)', 'maths212(3)'], ['maths213(1)', 'maths213(4)'], '1.25', '8', '4', '19', '1'];
+        const physics1 = [p1q1, p1q2, p1q3, p1q4, p1q5, p1q6, p1q7, p1q8, p1q9, p1q10, p1q11, p1q12, p1q13, p1q14, p1q15, p1q16, p1q17, p1q18]; const physics1Answer = [['physics11(2)'], ['physics12(2)'], ['physics13(3)'], ['physics14(1)'], ['physics15(3)'], ['physics16(2)'], ['physics17(1)', 'physics17(4)'], ['physics18(1)', 'physics18(3)'], ['physics19(3)'], ['physics110(1)', 'physics110(4)'], ['physics111(2)', 'physics111(4)'], ['physics112(3)'], ['physics113(1)', 'physics113(2)', 'physics113(3)', 'physics113(4)'], '9', '8', '6.28', '1.5', '2'];
+        const physics2 = [p2q1, p2q2, p2q3, p2q4, p2q5, p2q6, p2q7, p2q8, p2q9, p2q10, p2q11, p2q12, p2q13, p2q14, p2q15, p2q16, p2q17, p2q18]; const physics2Answer = [['physics21(2)'], ['physics22(3)'], ['physics23(3)'], ['physics24(1)'], ['physics25(2)'], ['physics26(2)', 'physics26(4)'], ['physics27(1)', 'physics27(2)', 'physics27(3)', 'physics27(4)'], ['physics28(2)', 'physic28(4)'], ['physics29(2)', 'physics29(3)', 'physics29(4)'], ['physics210(1)', 'physics210(2)'], ['physics211(1)', 'physics211(3)', 'physics211(4)'], ['physics212(2)', 'physics212(3)', 'physics212(4)'], ['physics213(2)', 'physics213(3)', 'physics213(4)'], '0.5', '10', '10', '4.71', '25'];
+        const chemistry1 = [c1q1, c1q2, c1q3, c1q4, c1q5, c1q6, c1q7, c1q8, c1q9, c1q10, c1q11, c1q12, c1q13, c1q14, c1q15, c1q16, c1q17, c1q18]; const chemistry1Answer = [['chemistry11(4)'], ['chemistry12(3)'], ['chemistry13(1)'], ['chemistry14(2)'], ['chemistry15(4)'], ['chemistry16(1)', 'chemistry16(2)', 'chemistry16(3)'], ['chemitry17(2)', 'chemistry17(3)'], ['chemistry18(1)', 'chemistry18(2)'], ['chemistry19(2)', 'chemistry19(4)'], ['chemistry110(1)', 'chemistry110(3)'], ['chemistry111(1)', 'chemistry111(2)', 'chemistry111(3)', 'chemistry111(4)'], ['chemistry112(1)', 'chemistry112(2)', 'chemistry112(4)'], ['chemistru113(2)', 'chemistry113(3)', 'chemistry113(4)'], '420', '29.88', '2743', '135', '5'];
+        const chemistry2 = [c2q1, c2q2, c2q3, c2q4, c2q5, c2q6, c2q7, c2q8, c2q9, c2q10, c2q11, c2q12, c2q13, c2q14, c2q15, c2q16, c2q17, c2q18]; const chemistry2Answer = [['chemistry21(1)'], ['chemistry22(1)'], ['chemistry23(2)'], ['chemistry24(1)'], ['chemistry25(1)'], ['chemistry26(1)', 'chemistry26(3)'], ['chemistry27(1)'], ['chemistry28(1)'], ['chemistry29(1)', 'chemistry29(3)', 'chemistry29(4)'], ['chemistry210(1)', 'chemistry210(3)', 'chemistry210(4)'], ['chemistry211(2)', 'chemistry211(3)', 'chemistry211(4)'], ['chemistry212(1)', 'chemistry212(4)'], ['chemistry213(1)', 'chemistry213(4)'], '13', '0.111', '1.2', '6.15', '16.5'];
+        const totalQuestions = 108; var attemptedPaper = 0; var unattemptedPaper = 54; var maths1Score = 0; var maths2Score = 0; var physics1Score = 0; var physics2Score = 0; var chemistry1Score = 0; var chemistry2Score = 0; var maths1Correct = 0; var maths2Correct = 0; var physics1Correct = 0; var physics2Correct = 0; var chemistry1Correct = 0; var chemistry2Correct = 0; var maths1Incorrect = 0; var maths2Incorrect = 0; var physics1Incorrect = 0; var physics2Incorrect = 0; var chemistry1Incorrect = 0; var chemistry2Incorrect = 0; var paper1Score = 0; var paper2Score = 0;
+        var optionStatus = {
+            maths: Array(18).fill(''),
+            physics: Array(18).fill(''),
+            chemistry: Array(18).fill('')
+        };
+        var optionUpdate = (section) => {
+            const currentSection = optionStatus[section];
+            for (let i = 0; i < 18; i++) {
+                switch (currentSection[i]) {
+                    case "save":
+                        optionbox.children[i].style.backgroundColor = 'green';
+                        break;
+                    case "save&mark":
+                        optionbox.children[i].style.backgroundColor = 'orange';
+                        break;
+                    case "mark":
+                        optionbox.children[i].style.backgroundColor = 'purple';
+                        break;
+                    case "clear":
+                        optionbox.children[i].style.backgroundColor = 'red'; break;
+                    case "notAttempted":
+                        optionbox.children[i].style.backgroundColor = 'red'; break;
+                    default:
+                        optionbox.children[i].style.backgroundColor = 'white'; break;
+                }
+            }
+        };
+        fetch('http://127.0.0.1:3000/first_paper_details').then(res => res.json()).then((data) => {
+            if ('paperChoice' in data[0]) {
+                attemptingPaper = data[0].paperChoice;
+                if (attemptingPaper == 'paper1') {
+                    document.getElementById('maths').addEventListener('click', (e) => {
+                        Qsection = 'maths';
+                        optionUpdate(Qsection);
+                        optionbox.addEventListener('click', (e) => {
+                            if (e.target.tagName !== 'DIV') return;
+                            if (nextBtn.disabled == true) {
+                                nextBtn.disabled = false;
+                                nextBtn.style.cursor = 'pointer';
+                            }
+
+                            if (e.target.tagName == 'DIV') {
+                                if (e.target.style.backgroundColor == 'white') {
+                                    e.target.style.backgroundColor = 'red';
+                                }
+                                questionContent.innerHTML = '';
+                                questionContent.appendChild(maths1[Number(e.target.getAttribute('id')) - 1]);
+                                currentQuestion = Number(e.target.getAttribute('id')) - 1;
+                                if ((Number(e.target.getAttribute('id'))) === 1) {
+                                    backBtn.disabled = true;
+                                    backBtn.style.cursor = 'not-allowed';
+                                } else {
+                                    backBtn.disabled = false;
+                                    backBtn.style.cursor = 'pointer';
+                                }
+                                const options = questionContent.querySelector('form').querySelectorAll('input[type="radio"]:not(:checked)');
+                                if (options.length == 4) {
+                                    optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                }
+                                backBtn.onclick = () => {
+                                    optionbox.children[currentQuestion].previousElementSibling.click();
+                                };
+                                const userBox = questionContent.querySelector('form').querySelector('input[type="Number"]');
+                                if (userBox != null) {
+                                    if (userBox.value == '') {
+                                        optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                    }
+                                }
+                                nextBtn.onclick = () => {
+                                    if (currentQuestion === 17 && Qsection === 'maths') {
+                                        document.getElementById('physics').click();
+                                        optionbox.children[0].click();
+                                    } else {
+                                        optionbox.children[currentQuestion].nextElementSibling.click();
+                                    }
+                                };
+
+                                document.getElementById('clear').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'clear';
+                                    optionUpdate(Qsection);
+                                    questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                        if (ele.checked == true) {
+                                            ele.checked = false;
+                                        }
+                                    });
+                                    questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                        if (ele.value != '') {
+                                            ele.value = '';
+                                        }
+                                    });
+                                    if ((document.getElementById('save').disabled == false)) {
+                                        document.getElementById('save').disabled = true;
+                                        document.getElementById('save').style.cursor = 'not-allowed';
+                                    }
+                                    if ((document.getElementById('save&mark').disabled == false)) {
+                                        document.getElementById('save&mark').disabled = true;
+                                        document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                };
+
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    ele.onchange = () => {
+                                        if (ele.checked == true) {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if ((document.getElementById('save')).disabled == true) {
+                                                document.getElementById('save').disabled = false;
+                                                document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if ((document.getElementById('save&mark')).disabled == true) {
+                                                document.getElementById('save&mark').disabled = false;
+                                                document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    ele.oninput = () => {
+                                        if (ele.value != '') {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if ((document.getElementById('save')).disabled == true) {
+                                                document.getElementById('save').disabled = false;
+                                                document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if ((document.getElementById('save&mark')).disabled == true) {
+                                                document.getElementById('save&mark').disabled = false;
+                                                document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                var count = 0;
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    if (ele.checked == true) {
+                                        count++;
+                                    }
+                                });
+                                if (count == 0) {
+                                    document.getElementById('save').disabled = true;
+                                    document.getElementById('save').style.cursor = 'not-allowed';
+                                    document.getElementById('save&mark').disabled = true;
+                                    document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                }
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    if (ele.value == '') {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                });
+                                document.getElementById('save').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'save';
+                                    optionUpdate(Qsection);
+                                    optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+
+                                document.getElementById('save&mark').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'save&mark';
+                                    optionUpdate(Qsection);
+                                    optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+
+                                document.getElementById('mark').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'mark';
+                                    optionUpdate(Qsection);
+                                    optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                            }
+                        });
+                    });
+                    document.getElementById('physics').addEventListener('click', (e) => {
+                        Qsection = 'physics';
+                        optionUpdate(Qsection);
+                        optionbox.addEventListener('click', (e) => {
+                            if (e.target.tagName !== 'DIV') return;
+                            if (nextBtn.disabled == true) {
+                                nextBtn.disabled = false; nextBtn.style.cursor = 'pointer';
+                            }
+                            if (backBtn.disabled == true) {
+                                backBtn.diabled = false; backBtn.style.cursor = 'pointer';
+                            }
+                            if (e.target.tagName == 'DIV') {
+                                if (e.target.style.backgroundColor == 'white') {
+                                    e.target.style.backgroundColor = 'red';
+                                }
+                                questionContent.innerHTML = '';
+                                questionContent.appendChild(physics1[Number(e.target.getAttribute('id')) - 1]); currentQuestion = Number(e.target.getAttribute('id')) - 1;
+                                const options = questionContent.querySelector('form').querySelectorAll('input[type="radio"]:not(:checked)');
+                                if (options.length == 4) {
+                                    optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                }
+                                const userBox = questionContent.querySelector('form').querySelector('input[type="Number"]');
+                                if (userBox != null) {
+                                    if (userBox.value == '') {
+                                        optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                    }
+                                }
+                                document.getElementById('clear').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'clear';
+                                    optionUpdate(Qsection); questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                        if (ele.checked == true) {
+                                            ele.checked = false;
+                                        }
+                                    });
+                                    questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                        if (ele.value != '') {
+                                            ele.value = '';
+                                        }
+                                    });
+                                    if (document.getElementById('save').disabled == false) {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed';
+                                    }
+                                    if (document.getElementById('save&mark').disabled == false) {
+                                        document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                };
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    ele.onchange = () => {
+                                        if (ele.checked == true) {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if (document.getElementById('save').disabled == true) {
+                                                document.getElementById('save').disabled = false; document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if (document.getElementById('save&mark').disabled == true) {
+                                                document.getElementById('save&mark').disabled = false; document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    }
+                                });
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    ele.oninput = () => {
+                                        if (ele.value != '') {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if ((document.getElementById('save')).disabled == true) {
+                                                document.getElementById('save').disabled = false;
+                                                document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if ((document.getElementById('save&mark')).disabled == true) {
+                                                document.getElementById('save&mark').disabled = false;
+                                                document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                var count = 0;
+                                questionContent.querySelector('form').querySelectorAll('input').forEach((ele) => {
+                                    if (ele.checked == true) {
+                                        count++;
+                                    }
+                                });
+                                if (count == 0) {
+                                    document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                }
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    if (ele.value == '') {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                });
+                                nextBtn.onclick = () => {
+                                    if (currentQuestion === 17 && Qsection === 'physics') {
+                                        document.getElementById('chemistry').click(); optionbox.children[0].click();
+                                    } else {
+                                        optionbox.children[currentQuestion].nextElementSibling.click();
+                                    }
+                                }
+                                backBtn.onclick = () => {
+                                    if (currentQuestion === 0 && Qsection === 'physics') {
+                                        document.getElementById('maths').click(); optionbox.children[17].click();
+                                    } else {
+                                        optionbox.children[currentQuestion].previousElementSibling.click();
+                                    }
+                                }
+                                document.getElementById('save').onclick = () => {
+                                    optionStatus.Qsection[currentQuestion] = 'save';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('save&mark').onclick = () => {
+                                    optionStatus.Qsection[currentQuestion] = 'save&mark';
+                                    optionUpate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('mark').onclick = () => {
+                                    optionStatus.Qsection[currentQuestion] = 'mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                            }
+                        });
+                    });
+                    document.getElementById('chemistry').addEventListener('click', (e) => {
+                        Qsection = 'chemistry';
+                        optionUpdate(Qsection);
+                        optionbox.addEventListener('click', (e) => {
+                            if (e.target.tagName !== 'DIV') return;
+                            if (backBtn.disabled == true) {
+                                backBtn.diabled = false; backBtn.style.cursor = 'pointer';
+                            }
+                            if (e.target.tagName == 'DIV') {
+                                if (e.target.style.backgroundColor == 'white') {
+                                    e.target.style.backgroundColor = 'red';
+                                }
+                                questionContent.innerHTML = '';
+                                questionContent.appendChild(chemistry1[Number(e.target.getAttribute('id')) - 1]); currentQuestion = Number(e.target.getAttribute('id')) - 1;
+                                if ((Number(e.target.getAttribute("id"))) === 18) {
+                                    nextBtn.disabled = true; nextBtn.style.cursor = 'not-allowed';
+                                } else {
+                                    nextBtn.disabled = false; nextBtn.style.cursor = 'pointer';
+                                }
+                                nextBtn.onclick = () => {
+                                    optionbox.children[currentQuestion].nextElementSibling.click();
+                                }
+                                backBtn.onclick = () => {
+                                    if (currentQuestion === 0 && Qsection === 'chemistry') {
+                                        document.getElementById('physics').click(); optionbox.children[17].click();
+                                    }
+                                    else {
+                                        optionbox.children[currentQuestion].previousElementSibling.click();
+                                    }
+                                };
+                                const options = questionContent.querySelector('form').querySelectorAll('input[type="radio"]:not(:checked)');
+                                if (options.length == 4) {
+                                    optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                }
+                                const userBox = questionContent.querySelector('form').querySelector('input[type="Number"]');
+                                if (userBox != null) {
+                                    if (userBox.value == '') {
+                                        optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                    }
+                                }
+                                document.getElementById('clear').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'clear';
+                                    optionUpdate(Qsection); questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                        if (ele.checked == true) {
+                                            ele.checked = false;
+                                        }
+                                    });
+                                    questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                        if (ele.value != '') {
+                                            ele.value = '';
+                                        }
+                                    });
+                                    if (document.getElementById('save').disabled == false) {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed';
+                                    }
+                                    if (document.getElementById('save&mark').disabled == false) {
+                                        document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                };
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    ele.onchange = () => {
+                                        if (ele.checked == true) {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if (document.getElementById('save').disabled == true) {
+                                                document.getElementById('save').disabled = false; document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if (document.getElementById('save&mark').disabled == true) {
+                                                document.getElementById('save&mark').disabled = false; document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    ele.oninput = () => {
+                                        if (ele.value != '') {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if ((document.getElementById('save')).disabled == true) {
+                                                document.getElementById('save').disabled = false;
+                                                document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if ((document.getElementById('save&mark')).disabled == true) {
+                                                document.getElementById('save&mark').disabled = false;
+                                                document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                var count = 0;
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    if (ele.checked == true) {
+                                        count++;
+                                    }
+                                });
+                                if (count == 0) {
+                                    document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                }
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    if (ele.value == '') {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                });
+                                document.getElementById('save').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'save';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('save&mark').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'save&mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('mark').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                            }
+                        });
+                    });
+                } else if (attemptingPaper == 'paper2') {
+                    document.getElementById('maths').addEventListener('click', (e) => {
+                        Qsection = 'maths';
+                        optionUpdate(Qsection);
+                        optionbox.addEventListener('click', (e) => {
+                            if (e.target.tagName !== 'DIV') return;
+                            if (nextBtn.disabled == true) {
+                                nextBtn.disabled = false; nextBtn.style.cursor = 'pointer';
+                            }
+                            if (e.target.tagName == 'DIV') {
+                                if (e.target.style.backgroundColor == 'white') {
+                                    e.target.style.backgroundColor = 'red';
+                                }
+                                questionContent.innerHTML = '';
+                                questionContent.appendChild(maths2[Number(e.target.getAttribute('id')) - 1]); currentQuestion = Number(e.target.getAttribute('id')) - 1;
+                                if ((Number(e.target.getAttribute('id'))) === 1) {
+                                    backBtn.disabled = true; backBtn.style.cursor = 'not-allowed';
+                                } else {
+                                    backBtn.disabled = false; backBtn.style.cursor = 'pointer';
+                                }
+                                const options = questionContent.querySelector('form').querySelectorAll('input[type="radio"]:not(:checked)');
+                                if (options.length == 4) {
+                                    optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                }
+                                backBtn.onclick = () => {
+                                    optionbox.children[currentQuestion].previousElementSibling.click();
+                                }
+                                const userBox = questionContent.querySelector('form').querySelector('input[type="Number"]');
+                                if (userBox != null) {
+                                    if (userBox.value == '') {
+                                        optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                    }
+                                }
+                                nextBtn.onclick = () => {
+                                    if (currentQuestion === 17 && Qsection === 'maths') {
+                                        document.getElementById('physics').click(); optionbox.children[0].click();
+                                    } else {
+                                        optionbox.children[currentQuestion].nextElementSibling.click();
+                                    }
+                                }
+                                document.getElementById('clear').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'clear';
+                                    optionUpdate(Qsection); questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                        if (ele.checked == true) {
+                                            ele.checked = false;
+                                        }
+                                    });
+                                    questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                        if (ele.value != '') {
+                                            ele.value = '';
+                                        }
+                                    });
+                                    if ((document.getElementById('save').disabled == false)) {
+                                        document.getElementById('save').disabled = true;
+                                        document.getElementById('save').style.cursor = 'not-allowed';
+                                    }
+                                    if ((document.getElementById('save&mark').disabled == false)) {
+                                        document.getElementById('save&mark').disabled = true;
+                                        document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                };
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    ele.onchange = () => {
+                                        if (ele.checked == true) {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if ((document.getElementById('save')).disabled == true) {
+                                                document.getElementById('save').disabled = false;
+                                                document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if ((document.getElementById('save&mark')).disabled == true) {
+                                                document.getElementById('save&mark').disabled = false;
+                                                document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    ele.oninput = () => {
+                                        if (ele.value != '') {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if ((document.getElementById('save')).disabled == true) {
+                                                document.getElementById('save').disabled = false;
+                                                document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if ((document.getElementById('save&mark')).disabled == true) {
+                                                document.getElementById('save&mark').disabled = false;
+                                                document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                var count = 0;
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    if (ele.checked == true) {
+                                        count++;
+                                    }
+                                });
+                                if (count == 0) {
+                                    document.getElementById('save').disabled = true;
+                                    document.getElementById('save').style.cursor = 'not-allowed';
+                                    document.getElementById('save&mark').disabled = true;
+                                    document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                }
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    if (ele.value == '') {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                });
+                                document.getElementById('save').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'save';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('save&mark').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'save&mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('mark').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                            }
+                        });
+                    });
+                    document.getElementById('physics').addEventListener('click', (e) => {
+                        Qsection = 'physics'; optionUpdate(Qsection);
+                        optionbox.addEventListener('click', (e) => {
+                            if (e.target.tagName !== 'DIV') return;
+                            if (nextBtn.disabled == true) {
+                                nextBtn.disabled = false; nextBtn.style.cursor = 'pointer';
+                            }
+                            if (backBtn.disabled == true) {
+                                backBtn.diabled = false; backBtn.style.cursor = 'pointer';
+                            }
+                            if (e.target.tagName == 'DIV') {
+                                if (e.target.style.backgroundColor == 'white') {
+                                    e.target.style.backgroundColor = 'red';
+                                }
+                                questionContent.innerHTML = '';
+                                questionContent.appendChild(physics2[Number(e.target.getAttribute('id')) - 1]); currentQuestion = Number(e.target.getAttribute('id')) - 1;
+                                const options = questionContent.querySelector('form').querySelectorAll('input[type="radio"]:not(:checked)');
+                                if (options.length == 4) {
+                                    optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                }
+                                const userBox = questionContent.querySelector('form').querySelector('input[type="Number"]');
+                                if (userBox != null) {
+                                    if (userBox.value == '') {
+                                        optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                    }
+                                }
+                                document.getElementById('clear').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'clear';
+                                    optionUpdate(Qsection); questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                        if (ele.checked == true) {
+                                            ele.checked = false;
+                                        }
+                                    });
+                                    questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                        if (ele.value != '') {
+                                            ele.value = '';
+                                        }
+                                    });
+                                    if (document.getElementById('save').disabled == false) {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed';
+                                    }
+                                    if (document.getElementById('save&mark').disabled == false) {
+                                        document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                };
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    ele.onchange = () => {
+                                        if (ele.checked == true) {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if (document.getElementById('save').disabled == true) {
+                                                document.getElementById('save').disabled = false; document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if (document.getElementById('save&mark').disabled == true) {
+                                                document.getElementById('save&mark').disabled = false; document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    }
+                                });
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    ele.oninput = () => {
+                                        if (ele.value != '') {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if ((document.getElementById('save')).disabled == true) {
+                                                document.getElementById('save').disabled = false;
+                                                document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if ((document.getElementById('save&mark')).disabled == true) {
+                                                document.getElementById('save&mark').disabled = false;
+                                                document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                var count = 0;
+                                questionContent.querySelector('form').querySelectorAll('input').forEach((ele) => {
+                                    if (ele.checked == true) {
+                                        count++;
+                                    }
+                                });
+                                if (count == 0) {
+                                    document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                }
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    if (ele.value == '') {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                });
+                                nextBtn.onclick = () => {
+                                    if (currentQuestion === 17 && Qsection === 'physics') {
+                                        document.getElementById('chemistry').click(); optionbox.children[0].click();
+                                    } else {
+                                        optionbox.children[currentQuestion].nextElementSibling.click();
+                                    }
+                                }
+                                backBtn.onclick = () => {
+                                    if (currentQuestion === 0 && Qsection === 'physics') {
+                                        document.getElementById('maths').click(); optionbox.children[17].click();
+                                    } else {
+                                        optionbox.children[currentQuestion].previousElementSibling.click();
+                                    }
+                                }
+                                document.getElementById('save').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'save';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('save&mark').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'save&mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('mark').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                            }
+                        });
+                    });
+                    document.getElementById('chemistry').addEventListener('click', (e) => {
+                        Qsection = 'chemistry';
+                        optionUpdate(Qsection);
+                        optionbox.addEventListener('click', (e) => {
+                            if (e.target.tagName !== 'DIV') return;
+                            if (backBtn.disabled == true) {
+                                backBtn.diabled = false; backBtn.style.cursor = 'pointer';
+                            }
+                            if (e.target.tagName == 'DIV') {
+                                if (e.target.style.backgroundColor == 'white') {
+                                    e.target.style.backgroundColor = 'red';
+                                }
+                                questionContent.innerHTML = '';
+                                questionContent.appendChild(chemistry2[Number(e.target.getAttribute('id')) - 1]); currentQuestion = Number(e.target.getAttribute('id')) - 1;
+                                if ((Number(e.target.getAttribute('id'))) === 18) {
+                                    nextBtn.disabled = true; nextBtn.style.cursor = 'not-allowed';
+                                } else {
+                                    nextBtn.disabled = false; nextBtn.style.cursor = 'pointer';
+                                }
+                                nextBtn.onclick = () => {
+                                    optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                backBtn.onclick = () => {
+                                    if (currentQuestion === 0 && Qsection === 'chemistry') {
+                                        document.getElementById('physics').click(); optionbox.children[17].click();
+                                    }
+                                    else {
+                                        optionbox.children[currentQuestion].previousElementSibling.click();
+                                    }
+                                };
+                                const options = questionContent.querySelector('form').querySelectorAll('input[type="radio"]:not(:checked)');
+                                if (options.length == 4) {
+                                    optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                }
+                                const userBox = questionContent.querySelector('form').querySelector('input[type="Number"]');
+                                if (userBox != null) {
+                                    if (userBox.value == '') {
+                                        optionStatus[Qsection][currentQuestion] = 'notAttempted';
+                                    }
+                                }
+                                document.getElementById('clear').onclick = () => {
+                                    optionStatus[Qsection][currentQuestion] = 'clear';
+                                    optionUpdate(Qsection); questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                        if (ele.checked == true) {
+                                            ele.checked = false;
+                                        }
+                                    });
+                                    questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                        if (ele.value != '') {
+                                            ele.value = '';
+                                        }
+                                    });
+                                    if (document.getElementById('save').disabled == false) {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed';
+                                    }
+                                    if (document.getElementById('save&mark').disabled == false) {
+                                        document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                };
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    ele.onchange = () => {
+                                        if (ele.checked == true) {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if (document.getElementById('save').disabled == true) {
+                                                document.getElementById('save').disabled = false; document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if (document.getElementById('save&mark').disabled == true) {
+                                                document.getElementById('save&mark').disabled = false; document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    ele.oninput = () => {
+                                        if (ele.value != '') {
+                                            e.target.style.backgroundColor = 'green'; optionStatus[Qsection][currentQuestion] = 'save';
+                                            if ((document.getElementById('save')).disabled == true) {
+                                                document.getElementById('save').disabled = false;
+                                                document.getElementById('save').style.cursor = 'pointer';
+                                            }
+                                            if ((document.getElementById('save&mark')).disabled == true) {
+                                                document.getElementById('save&mark').disabled = false;
+                                                document.getElementById('save&mark').style.cursor = 'pointer';
+                                            }
+                                        }
+                                    };
+                                });
+                                var count = 0;
+                                questionContent.querySelector('form').querySelectorAll('input[type="radio"]').forEach((ele) => {
+                                    if (ele.checked == true) {
+                                        count++;
+                                    }
+                                });
+                                if (count == 0) {
+                                    document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                }
+                                questionContent.querySelector('form').querySelectorAll('input[type="Number"]').forEach((ele) => {
+                                    if (ele.value == '') {
+                                        document.getElementById('save').disabled = true; document.getElementById('save').style.cursor = 'not-allowed'; document.getElementById('save&mark').disabled = true; document.getElementById('save&mark').style.cursor = 'not-allowed';
+                                    }
+                                });
+                                document.getElementById('save').onclick = () => {
+                                    optionStatus.Qsection[currentQuestion] = 'save';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('save&mark').onclick = () => {
+                                    optionStatus.Qsection[currentQuestion] = 'save&mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                                document.getElementById('mark').onclick = () => {
+                                    optionStatus.Qsection[currentQuestion] = 'mark';
+                                    optionUpdate(Qsection); optionbox.children[currentQuestion].nextElementSibling.click();
+                                };
+                            }
+                        });
+                    });
+                }
+            } else if ('error' in data) { alert('A server-side error occurred . Try refreshing the page again.'); }
+        }).catch((error) => { alert('An unknown error occurred. Try refreshing the page again.'); console.error(error); });
+        submitBtn.addEventListener('click', async (e) => {
+            e.preventDefault();
+            submitBtn.style.transition = 'background-color 30ms linear'; submitBtn.style.backgroundColor = '#78f484';
+            setTimeout(() => {
+                submitBtn.style.background = 'green'; document.getElementById('loader').style.width = '100vw'; document.getElementById('loader').style.height = '100vh'; document.getElementById('loader').style.display = 'flex'; document.getElementById('loader').style.flexDirection = 'row'; document.getElementById('loader').style.gap = '15px'; document.getElementById('loader').style.justifyContent = 'center'; document.getElementById('loader').style.alignItems = 'center'; document.getElementById('loader').style.backgroundColor = 'rgb(13,13,13)'; document.getElementById('loader').style.zIndex = '999'; document.getElementById('main').style.display = 'none';
+            }, 100);
+            setTimeout(async () => {
+                if (attemptingPaper == 'paper1') {
+                    maths1.forEach((ele) => {
+                        const array = ele.querySelector('#questionOption').querySelectorAll('input');
+                        if (array.length == 1) {
+                            if (array[0].value != '') {
+                                attemptedPaper++; unattemptedPaper--;
+                            }
+                        } else {
+                            for (let i = 0; i < (array.length); i++) {
+                                if (array[i].checked == true) {
+                                    attemptedPaper++; unattemptedPaper--; break;
+                                }
+                            }
+                        }
+                    });
+                    physics1.forEach((ele) => {
+                        const array = ele.querySelector("#questionOption").querySelectorAll("input");
+                        if (array.length == 1) {
+                            if (array[0].value != '') {
+                                attemptedPaper++; unattemptedPaper--;
+                            }
+                        } else {
+                            for (let i = 0; i < (array.length); i++) {
+                                if (array[i].checked == true) {
+                                    attemptedPaper++; unattemptedPaper--; break;
+                                }
+                            }
+                        }
+                    });
+                    chemistry1.forEach((ele) => {
+                        const array = ele.querySelector('#questionOption').querySelectorAll('input');
+                        if (array.length == 1) {
+                            if (array[0].value != '') {
+                                attemptedPaper++; unattemptedPaper--;
+                            }
+                        } else {
+                            for (let i = 0; i < (array.length); i++) {
+                                if (array[i].checked == true) {
+                                    attemptedPaper++; unattemptedPaper--; break;
+                                }
+                            }
+                        }
+                    });
+                    maths1.forEach((ele, index) => {
+                        if ((ele.querySelector('input[type="radio"]')) != null) {
+                            const answers = ele.querySelectorAll('input:checked');
+                            if (answers.length != 0) {
+                                if ((maths1Answer[index].length) == 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if ((answers[i].getAttribute('id')) != maths1Answer[index][i]) {
+                                            maths1Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        maths1Correct++;
+                                    }
+                                } else if ((maths1Answer[index].length) > 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if ((maths1Answer[index].includes(answers[i].getAttribute('id'))) == false) {
+                                            maths1Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        maths1Correct++;
+                                    }
+                                }
+                            }
+                        } else if ((ele.querySelector('input[type="Number"]')) != null) {
+                            const userinput = ele.querySelector('input').value;
+                            if (userinput == maths1Answer[index]) {
+                                maths1Correct++;
+                            } else {
+                                maths1Incorrect++;
+                            }
+                        }
+                    });
+                    physics1.forEach((ele, index) => {
+                        if ((ele.querySelector('input[type="radio"]')) != null) {
+                            const answers = ele.querySelectorAll("input:checked");
+                            if (answers.length != 0) {
+                                if ((physics1Answer[index].length) == 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if ((answers[i].getAttribute('id')) != physics1Answer[index][i]) {
+                                            physics1Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        physics1Correct++;
+                                    }
+                                } else if ((physics1Answer[index].length) > 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if (physics1Answer[index].includes(answers[i].getAttribute('id')) == false) {
+                                            physics1Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        physics1Correct++;
+                                    }
+                                }
+                            }
+                        } else if ((ele.querySelector("input[type='Number']")) != null) {
+                            const userinput = ele.querySelector('input').value;
+                            if (userinput == physics1Answer[index]) {
+                                physics1Correct++;
+                            } else {
+                                physics1Incorrect++;
+                            }
+                        }
+                    });
+                    chemistry1.forEach((ele, index) => {
+                        if ((ele.querySelector('input[type="radio"]') != null)) {
+                            const answers = ele.querySelectorAll("input:checked");
+                            if (answers.length != 0) {
+                                if ((chemistry1Answer[index].length) == 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if ((answers[i].getAttribute('id')) != chemistry1Answer[index][i]) {
+                                            chemistry1Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        chemistry1Correct++;
+                                    }
+                                } else if ((chemistry1Answer[index].length) > 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if (chemistry1Answer[index].includes(answers[i].getAttribute('id')) == false) {
+                                            chemistry1Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        chemistry1Correct++;
+                                    }
+                                }
+                            }
+                        } else if ((ele.querySelector("input[type='Number']")) != null) {
+                            const userinput = ele.querySelector('input').value;
+                            if (userinput == chemistry1Answer[index]) {
+                                chemistry1Correct++;
+                            } else {
+                                chemistry1Incorrect++;
+                            }
+                        }
+                    }); maths1Score = (((maths1Correct) * 4) - ((maths1Incorrect) * 1)); physics1Score = (((physics1Correct) * 4) - ((physics1Incorrect) * 1)); chemistry1Score = (((chemistry1Correct) * 4) - ((chemistry1Incorrect) * 1)); var paper1Correct = (maths1Correct + physics1Correct + chemistry1Correct); var paper1Incorrect = (maths1Incorrect + physics1Incorrect + chemistry1Incorrect);
+                    paper1Score = maths1Score + physics1Score + chemistry1Score; var paper1Time = timeRemaining;var maths1Response=[m1q1.innerHTML,m1q2.innerHTML,m1q3.innerHTML,m1q4.innerHTML,m1q5.innerHTML,m1q6.innerHTML,m1q7.innerHTML,m1q8.innerHTML,m1q9.innerHTML,m1q10.innerHTML,m1q11.innerHTML,m1q12.innerHTML,m1q13.innerHTML,m1q14.innerHTML,m1q15.innerHTML,m1q16.innerHTML,m1q17.innerHTML,m1q18.innerHTML];var physics1Response=[p1q1.innerHTML,p1q2.innerHTML,p1q3.innerHTML,p1q4.innerHTML,p1q5.innerHTML,p1q6.innerHTML,p1q7.innerHTML,p1q8.innerHTML,p1q10.innerHTML,p1q11.innerHTML,p1q12.innerHTML,p1q13.innerHTML,p1q14.innerHTML,p1q15.innerHTML,p1q16.innerHTML,p1q17.innerHTML,p1q18.innerHTML];var chemistry1Response=[c1q1.innerHTML,c1q2.innerHTML,c1q3.innerHTML,c1q4.innerHTML,c1q5.innerHTML,c1q6.innerHTML,c1q7.innerHTML,c1q8.innerHTML,c1q9.innerHTML,c1q10.innerHTML,c1q11.innerHTML,c1q12.innerHTML,c1q13.innerHTML,c1q14.innerHTML,c1q15.innerHTML,c1q16.innerHTML,c1q17.innerHTML,c1q18.innerHTML];
+                    try {
+                        let response = await fetch('http://127.0.0.1:3000/test_info1', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ name: username, roll: appno, paper1Score: paper1Score, maths1Score: maths1Score, physics1Score: physics1Score, chemistry1Score: chemistry1Score, paper1Correct: paper1Correct, paper1Incorrect: paper1Incorrect, attemptedPaper1: attemptedPaper, unattemptedPaper1: unattemptedPaper, paper1Time: paper1Time, paper1Response: [maths1Response, physics1Response, chemistry1Response] })
+                        });
+                        let result = await response.json();
+                        if ("message" in result) {
+                            window.location.href = './access.html';
+                        } else if ('error' in result) {
+                            alert('A server-side error occurred . Refresh the page and try again .');
+                        }
+                    } catch (error) {
+                        console.error(error); alert("An unknown error occurred . Refresh the page and try again.");
+                    }
+                } else if (attemptingPaper == 'paper2') {
+                    maths2.forEach((ele) => {
+                        const array = ele.querySelector('#questionOption').querySelectorAll('input');
+                        if (array.length == 1) {
+                            if (array[0].value != '') {
+                                attemptedPaper++; unattemptedPaper--;
+                            }
+                        } else {
+                            for (let i = 0; i < (array.length); i++) {
+                                if (array[i].checked == true) {
+                                    attemptedPaper++; unattemptedPaper--; break;
+                                }
+                            }
+                        }
+                    });
+                    physics2.forEach((ele) => {
+                        const array = ele.querySelector('#questionOption').querySelectorAll('input');
+                        if (array.length == 1) {
+                            if (array[0].value != '') {
+                                attemptedPaper++; unattemptedPaper--;
+                            }
+                        } else {
+                            for (let i = 0; i < (array.length); i++) {
+                                if (array[i].checked == true) {
+                                    attemptedPaper++; unattemptedPaper--; break;
+                                }
+                            }
+                        }
+                    });
+
+                    chemistry2.forEach((ele) => {
+                        const array = ele.querySelector('#questionOption').querySelectorAll('input');
+                        if (array.length == 1) {
+                            if (array[0].value != '') {
+                                attemptedPaper++; unattemptedPaper--;
+                            }
+                        } else {
+                            for (let i = 0; i < (array.length); i++) {
+                                if (array[i].checked == true) {
+                                    attemptedPaper++; unattemptedPaper--; break;
+                                }
+                            }
+                        }
+                    });
+                    maths2.forEach((ele, index) => {
+                        if ((ele.querySelector("input[type='radio']")) != null) {
+                            const answers = ele.querySelectorAll('input:checked');
+                            if (answers.length != 0) {
+                                if ((maths2Answer[index].length) == 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if ((answers[i].getAttribute('id')) != maths2Answer[index][i]) {
+                                            maths2Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        maths2Correct++;
+                                    }
+                                } else if ((maths2Answer[index].length) > 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if ((maths2Answer[index].includes(answers[i].getAttribute('id'))) == false) {
+                                            maths2Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        maths2Correct++;
+                                    }
+                                }
+                            }
+                        }
+                        else if ((ele.querySelector("input[type='Number']")) != null) {
+                            const userinput = ele.querySelector('input').value;
+                            if (userinput == maths2Answer[index]) {
+                                maths2Correct++;
+                            } else {
+                                maths2Incorrect++;
+                            }
+                        }
+                    });
+                    physics2.forEach((ele, index) => {
+                        if ((ele.querySelector("input[type='radio']")) != null) {
+                            const answers = ele.querySelectorAll("input:checked");
+                            if (answers.length != 0) {
+                                if ((physics2Answer[index].length) == 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if ((answers[i].getAttribute('id')) != physics2Answer[index][i]) {
+                                            physics2Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        physics2Correct++;
+                                    }
+                                } else if ((physics2Answer[index].length) > 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if (physics2Answer[index].includes(answers[i].getAttribute('id')) == false) {
+                                            physics2Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        physics2Correct++;
+                                    }
+                                }
+                            }
+                        } else if ((ele.querySelector("input[type='Number']")) != null) {
+                            const userinput = ele.querySelector('input').value;
+                            if (userinput == physics2Answer[index]) {
+                                physics2Correct++;
+                            } else {
+                                physics2Incorrect++;
+                            }
+                        }
+                    });
+
+                    chemistry2.forEach((ele, index) => {
+                        if ((ele.querySelector('input[type="radio"]')) != null) {
+                            const answers = ele.querySelectorAll('input:checked');
+                            if (answers.length != 0) {
+                                if ((chemistry2Answer[index].length) == 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if ((answers[i].getAttribute('id')) != chemistry2Answer[index][i]) {
+                                            chemistry2Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        chemistry2Correct++;
+                                    }
+                                } else if ((chemistry2Answer[index].length) > 1) {
+                                    var iterations = 0;
+                                    for (let i = 0; i < (answers.length); i++) {
+                                        if (chemistry2Answer[index].includes(answers[i].getAttribute('id')) == false) {
+                                            chemistry2Incorrect++; break;
+                                        }
+                                        iterations++;
+                                    }
+                                    if (iterations == answers.length) {
+                                        chemistry2Correct++;
+                                    }
+                                }
+                            }
+                        } else if ((ele.querySelector('input[type="Number"]')) != null) {
+                            const userinput = ele.querySelector('input').value;
+                            if (userinput == chemistry2Answer[index]) {
+                                chemistry2Correct++;
+                            } else {
+                                chemistry2Incorrect++;
+                            }
+                        }
+                    }); maths2Score = (((maths2Correct) * 4) - ((maths2Incorrect) * 1)); physics2Score = (((physics2Correct) * 4) - ((physics2Incorrect) * 1)); chemistry2Score = (((chemistry2Correct) * 4) - ((chemistry2Incorrect) * 1)); var paper2Correct = (maths2Correct + physics2Correct + chemistry2Correct); var paper2Incorrect = (maths2Incorrect + physics2Incorrect + chemistry2Incorrect); paper2Score = (maths2Score + physics2Score + chemistry2Score); var paper2Time = timeRemaining;var maths2Response=[m2q1.innerHTML,m2q2.innerHTML,m2q3.innerHTML,m2q4.innerHTML,m2q5.innerHTML,m2q6.innerHTML,m2q7.innerHTML,m2q8.innerHTML,m2q9.innerHTML,m2q10.innerHTML,m2q11.innerHTML,m2q12.innerHTML,m2q13.innerHTML,m2q14.innerHTML,m2q15.innerHTML,m2q16.innerHTML,m2q17.innerHTML,m2q18.innerHTML];var physics2Response=[p2q1.innerHTML,p2q2.innerHTML,p2q3.innerHTML,p2q4.innerHTML,p2q5.innerHTML,p2q6.innerHTML,p2q7.innerHTML,p2q8.innerHTML,p2q10.innerHTML,p2q11.innerHTML,p2q12.innerHTML,p2q13.innerHTML,p2q14.innerHTML,p2q15.innerHTML,p216.innerHTML,p2q17.innerHTML,p2q18.innerHTML];var chemistry2Response=[c2q1.innerHTML,c2q2.innerHTML,c2q3.innerHTML,c2q4.innerHTML,c2q5.innerHTML,c2q6.innerHTML,c2q7.innerHTML,c2q8.innerHTML,c2q9.innerHTML,c2q10.innerHTML,c2q11.innerHTML,c2q12.innerHTML,c2q13.innerHTML,c2q14.innerHTML,c2q15.innerHTML,c2q16.innerHTML,c2q17.innerHTML,c2q18.innerHTML];
+                    try {
+                        let response = await fetch('http://127.0.0.1:3000/test_info2', {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/json"
+                            },
+                            body: JSON.stringify({ name: username, roll: appno, paper2Score: paper2Score, maths2Score: maths2Score, physics2Score: physics2Score, chemistry2Score: chemistry2Score, paper2Correct: paper2Correct, paper2Incorrect: paper2Incorrect, attemptedPaper2: attemptedPaper, unattemptedPaper2: unattemptedPaper, paper2Time: paper2Time, paper2Response: [maths2Response, physics2Response, chemistry2Response] })
+                        });
+                        let result = await response.json();
+                        if ("message" in result) {
+                            window.location.href = './access.html';
+                        } else if ('error' in result) {
+                            alert('A server-side error occurred . Refresh the page and try again.');
+                        }
+                    } catch (error) {
+                        console.error(error); alert('An unknown error occurred . Refresh the page and try agian .');
+                    }
+                }
+            }, 120);
+        });       
+    </script>
+</body>
+
+</html>

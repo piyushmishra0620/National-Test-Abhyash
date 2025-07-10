@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <title>National Test Abhyash</title>
+    <meta name="viewport"
+        content="width=device-width, height=device-height, user-scalable=yes, initial-scale=1.0, minimum-scale=0.25, maximum-scale=5.0">
+    <meta charset="UTF-8">
+    <link rel="icon" href="./ChatGPT Image Jun 20, 2025, 11_03_50 PM.png">
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            margin: 0px;
+            scroll-behavior: smooth;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            background-color: rgba(0, 0, 0, 0.815);
+            width: 100vw;
+            height: 100vh;
+        }
+
+        #main {
+            position: absolute;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgb(13, 13, 13);
+            z-index: 0;
+        }
+
+        nav {
+            position: fixed;
+            top: 0;
+            width: 100vw;
+            height: 7vh;
+            background-color: transparent;
+            border-bottom: 1px solid rgba(123, 121, 121, 0.644);
+            box-shadow: 0px 0.5px 0.3px rgb(51, 50, 50);
+            backdrop-filter: blur(90px);
+            z-index: 99;
+        }
+
+        #container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: row;
+            gap: 0.7%;
+        }
+
+        #header h5 {
+            font-weight: bolder;
+            color: blue;
+            margin: 0;
+            cursor: pointer;
+            font-size: larger;
+            margin-top: 3%;
+            margin-bottom: 0.4%;
+        }
+
+        #header h6 {
+            font-style: italic;
+            color: white;
+            font-weight: bold;
+            background-color: green;
+            margin: 0;
+            cursor: pointer;
+            margin-top: 0;
+            margin-bottom: 3%;
+            width: fit-content;
+            padding-left: 3%;
+            padding-right: 3%;
+            font-size: 10.72px;
+        }
+
+        #cover {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+
+        #paperchoice {
+            padding-top: 15px;
+            padding-bottom: 15px;
+            padding-right: 45px;
+            padding-left: 45px;
+            border-radius: 15px;
+            background-color: blue;
+            color: black;
+            font-size: 15px;
+            font-weight: bold;
+            border: 2px solid rgba(255, 248, 248, 0.688);
+            cursor: pointer;
+        }
+
+        #paperchoice:hover {
+            box-shadow: 0px 0px 8px 1px black;
+            transform: translateY(-5%);
+        }
+
+        #submit:hover {
+            box-shadow: 0px 0px 8px 1px black;
+            transform: translateY(-5%);
+        }
+
+        #loader {
+            display: none;
+        }
+
+        .dot {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            animation: bounce 1s infinite;
+        }
+
+        .dot:nth-child(1) {
+            animation-delay: 0s;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.25s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.50s;
+        }
+
+        @keyframes bounce {
+            0% {
+                transform: translateY(-15px);
+            }
+
+            50% {
+                transform: translateY(-7.5px);
+            }
+
+            100% {
+                transform: tranlateY(0px);
+            }
+        }
+
+        @media(max-height:650px) {
+            #header h5 {
+                margin-top: 1.5%;
+                margin-bottom: 0.3%;
+            }
+
+            #header h6 {
+                margin-bottom: 1.5%;
+            }
+        }
+
+        @media(min-height:800px) {
+            #header h5 {
+                margin-top: 5%;
+                margin-bottom: 1%;
+            }
+
+            #header h6 {
+                margin-bottom: 5%;
+            }
+        }
+
+        @media(min-height:1000px) {
+            #header h5 {
+                margin-top: 8%;
+            }
+        }
+
+        @media(min-height:1300px) {
+            #header h5 {
+                margin-top: 10%;
+            }
+        }
+
+        @media(min-height:1500px) {
+            #header h5 {
+                margin-top: 15%;
+            }
+        }
+
+        @media(min-height:1800px) {
+            #header h5 {
+                font-size: 25px;
+            }
+
+            #header h6 {
+                font-size: 15px;
+            }
+        }
+
+        @media(max-height:600px) {
+            #nav_bar {
+                height: 60px;
+            }
+        }
+
+        @media(max-height:550px) {
+            #header h5 {
+                font-size: 15px;
+            }
+
+            #header h6 {
+                font-size: 7px;
+            }
+        }
+
+        @media(max-height:414px) {
+            #header h5 {
+                font-size: 13px;
+            }
+
+            #header h6 {
+                font-size: 5px;
+            }
+        }
+
+        @media(max-width:500px) {
+            #form {
+                padding: 20px;
+            }
+
+            #form h {
+                font-size: 10px;
+            }
+        }
+
+        @media(max-width:381px) {
+            #form h {
+                font-size: 5.5px;
+            }
+
+            #form {
+                padding: 13px;
+            }
+
+            #btn1 {
+                padding-right: 40px;
+                padding-left: 40px;
+            }
+
+            #btn2 {
+                padding-right: 40px;
+                padding-left: 40px;
+            }
+        }
+
+        @media(max-width:350px) {
+            #form h {
+                font-size: 4.5px;
+                font-weight: normal;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="main">
+        <nav>
+            <div id="container">
+                <img src="./ChatGPT Image Jun 20, 2025, 11_03_50 PM.png" width="auto" height="auto" load="eager"
+                    style="border-radius:50%;place-self:left;cursor:pointer" href="./index.html">
+                <div id="header">
+                    <h5 href="./index.html">National Testing Agency</h5>
+                    <h6 href="./index.html">Excellence in Assessment</h6>
+                </div>
+            </div>
+        </nav>
+        <div id="cover">
+            <h1 style="color:white;font-size:larger;font-weight:bold;">Your response is recorded.</h1>
+            <button id="paperchoice"></button><br>
+            <button id='submit'
+                style="padding-top:15px;padding-bottom:15px;padding-right:45px;padding-left:45px;border-radius:15px;background-color:blue;color:black;font-size:15px;font-weight:bold;border:2px solid rgba(255,248,248,0.688);cursor:pointer;">View
+                Scorecard</button>
+        </div>
+    </div>
+    <div id="loader">
+        <span class="dot" style="background-color:orange"></span>
+        <span class="dot" style="background-color:white;"></span>
+        <span class="dot" style="background-color:green;"></span>
+    </div>
+    <script>
+        var attemptingPaper='';
+        var papertoAttempt='';
+
+        const button = document.getElementById('paperchoice');
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if ((localStorage.getItem('modifiedCount')) === 'true') {
+                if (button) {
+                    button.remove();
+                }
+            }
+        });
+
+
+        fetch('http://127.0.0.1:3000/first_paper_details')
+            .then(res => res.json())
+            .then((data) => {
+                if ('paperChoice' in data[0]) {
+                    attemptingPaper = data[0].paperChoice;
+                } else if ('error' in data) {
+                    alert('A server-side error occurred . Try refreshing the page again.');
+                    return;
+                }
+
+                if (button) {
+                    if (attemptingPaper === 'paper1') {
+                        button.innerHTML = 'Attempt Paper 2';
+                        papertoAttempt = 'paper2';
+                    } else if (attemptingPaper === 'paper2') {
+                        button.innerHTML = 'Attempt Paper 1';
+                        papertoAttempt = 'paper1';
+                    }
+
+                    button.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        button.style.transition = 'background-color 30ms linear none';
+                        button.style.backgroundColor = '#3faef8';
+                        setTimeout(() => {
+                            button.style.backgroundColor = 'blue';
+                            document.getElementById('loader').style.width = '100vw';
+                            document.getElementById('loader').style.height = '100vh';
+                            document.getElementById('loader').style.display = 'flex';
+                            document.getElementById('loader').style.flexDirection = 'row';
+                            document.getElementById('loader').style.gap = '15px';
+                            document.getElementById('loader').style.justifyContent = 'center';
+                            document.getElementById('loader').style.alignItems = 'center';
+                            document.getElementById('loader').style.backgroundColor = 'rgb(13,13,13)';
+                            document.getElementById('loader').style.zIndex = '999';
+                            document.getElementById('main').style.display = 'none';
+                        }, 100);
+                        setTimeout(() => {
+                            fetch('http://127.0.0.1:3000/first_paper_details', {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ paperChoice: papertoAttempt })
+                            })
+                                .then(res => res.json())
+                                .then((data) => {
+                                    if ('message' in data) {
+                                        button.remove();
+                                        localStorage.setItem('modifiedCount', 'true');
+                                        window.location.href = './exam.html';
+                                    } else if ('error' in data) {
+                                        alert('A server-side error occurred . Refresh the page and try again .');
+                                    }
+                                })
+                                .catch((error) => {
+                                    alert('An unknown error occurred . Refresh the page and try again .');
+                                    console.error(error);
+                                });
+                        }, 120);
+                    });
+
+                    button.addEventListener('touchstart', (e) => {
+                        e.preventDefault();
+                        button.style.transition = 'background-color 30ms linear none';
+                        button.style.backgroundColor = '#3faef8';
+                        setTimeout(() => {
+                            button.style.backgroundColor = 'blue';
+                            document.getElementById('loader').style.width = '100vw';
+                            document.getElementById('loader').style.height = '100vh';
+                            document.getElementById('loader').style.display = 'flex';
+                            document.getElementById('loader').style.flexDirection = 'row';
+                            document.getElementById('loader').style.gap = '15px';
+                            document.getElementById('loader').style.justifyContent = 'center';
+                            document.getElementById('loader').style.alignItems = 'center';
+                            document.getElementById('loader').style.backgroundColor = 'rgb(13,13,13)';
+                            document.getElementById('loader').style.zIndex = '999';
+                            document.getElementById('main').style.display = 'none';
+                        }, 100);
+                        setTimeout(() => {
+                            fetch('http://127.0.0.1:3000/first_paper_details', {
+                                method: 'PUT',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ paperChoice: papertoAttempt })
+                            })
+                                .then(res => res.json())
+                                .then((data) => {
+                                    if ('message' in data) {
+                                        button.remove();
+                                        localStorage.setItem('modifiedCount', 'true');
+                                        window.location.href = './exam.html';
+                                    } else if ('error' in data) {
+                                        alert('A server-side error occurred . Refresh the page and try again .');
+                                    }
+                                })
+                                .catch((error) => {
+                                    alert('An unknown error occurred . Refresh the page and try again .');
+                                    console.error(error);
+                                });
+                        }, 120);
+                    });
+                }
+            })
+            .catch((error) => {
+                alert('An unknown error occurred. Try refreshing the page again.');
+                console.error(error);
+            });
+
+        const viewScore = document.getElementById('submit');
+        viewScore.addEventListener('click', (e) => {
+            e.preventDefault();
+            viewScore.style.transition = 'background-color 30ms linear none';
+            viewScore.style.backgroundColor = '#3faef8';
+            setTimeout(() => {
+                viewScore.style.backgroundColor = 'blue';
+                document.getElementById('loader').style.width = '100vw';
+                document.getElementById('loader').style.height = '100vh';
+                document.getElementById('loader').style.display = 'flex';
+                document.getElementById('loader').style.flexDirection = 'row';
+                document.getElementById('loader').style.gap = '15px';
+                document.getElementById('loader').style.justifyContent = 'center';
+                document.getElementById('loader').style.alignItems = 'center';
+                document.getElementById('loader').style.backgroundColor = 'rgb(13,13,13)';
+                document.getElementById('loader').style.zIndex = '999';
+                document.getElementById('main').style.display = 'none';
+            }, 100);
+            setTimeout(() => {
+                window.location.href = './result.html';
+            }, 2000);
+        });
+
+        viewScore.addEventListener('touchstart', (e) => {
+            e.preventDefault();
+            viewScore.style.transition = 'background-color 30ms linear none';
+            viewScore.style.backgroundColor = '#3faef8';
+            setTimeout(() => {
+                viewScore.style.backgroundColor = 'blue';
+                document.getElementById('loader').style.width = '100vw';
+                document.getElementById('loader').style.height = '100vh';
+                document.getElementById('loader').style.display = 'flex';
+                document.getElementById('loader').style.flexDirection = 'row';
+                document.getElementById('loader').style.gap = '15px';
+                document.getElementById('loader').style.justifyContent = 'center';
+                document.getElementById('loader').style.alignItems = 'center';
+                document.getElementById('loader').style.backgroundColor = 'rgb(13,13,13)';
+                document.getElementById('loader').style.zIndex = '999';
+                document.getElementById('main').style.display = 'none';
+            }, 100);
+            setTimeout(() => {
+                window.location.href = './result.html';
+            }, 2000);
+        });
+
+    </script>
+</body>
+
+</html>
