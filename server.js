@@ -172,6 +172,6 @@ server.get('/test_info2', async (req,res)=>{
         console.error(error);return res.status(500).json({error:"Server couldn't fetch the data from database..."});
     }
 });
-server.listen(port,url,()=>{
+server.listen(port,()=>{
     console.log(`server running on ${port}`);
 });
