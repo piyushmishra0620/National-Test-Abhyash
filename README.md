@@ -43,7 +43,7 @@ Project/
 
 ```bash
 # 1. Fork the GitHub repository and clone your fork
-`git clone` https://github.com/<your-username>/test-interface.git
+`git clone` https://github.com/piyushmishra0620/National-Test-Abhyash.git
 
 # 2. Navigate to the project folder
 `cd` test-interface
