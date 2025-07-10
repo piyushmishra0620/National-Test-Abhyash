@@ -270,7 +270,7 @@ nav {
     display:grid;position:absolute;top:40vh;width:100%;place-items:center;z-index:895;
   }
   #questionPalette {
-    position:relative;box-shadow:none;z-index:895;background-color:transparent;backdrop-filter:blur(90px);transform:translateX(200%);transition:transform 0.2s ease-in;
+    position:relative;box-shadow:none;z-index:895;background-color:transparent;backdrop-filter:blur(90px);transform:translateX(650%);transition:transform 0.2s ease-in;
   }
 
   #questionPalette.active{
