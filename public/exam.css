@@ -107,7 +107,9 @@ nav {
   max-width: 750px;
   position: relative;
 }
-
+#questionContent{
+  color: white;
+}  
 #questionPalette {
   flex: 0 0 30%;
   min-width: 250px;
