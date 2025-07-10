@@ -266,15 +266,13 @@ nav {
     max-width: 800px;
   }
 
-  #optionWrapper.active{
-    display:grid;position:absolute;top:40vh;width:100%;place-items:center;z-index:895;
-  }
+
   #questionPalette {
-    position:relative;box-shadow:none;z-index:895;background-color:transparent;backdrop-filter:blur(90px);transform:translateX(650%);transition:transform 0.2s ease-in;
+    position:fixed;box-shadow:none;z-index:895;background-color:transparent;backdrop-filter:blur(90px);left:200%;transition:left 0.2s ease-in;top:322px;
   }
 
   #questionPalette.active{
-    transform:translateX(0);
+    left:26%;
   }
 
   #buttonsRow {
