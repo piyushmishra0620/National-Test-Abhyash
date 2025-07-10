@@ -303,7 +303,7 @@
         });
 
 
-        fetch('http://127.0.0.1:3000/first_paper_details')
+        fetch('https://national-test-abhyash.onrender.com/first_paper_details')
             .then(res => res.json())
             .then((data) => {
                 if ('paperChoice' in data[0]) {
@@ -340,7 +340,7 @@
                             document.getElementById('main').style.display = 'none';
                         }, 100);
                         setTimeout(() => {
-                            fetch('http://127.0.0.1:3000/first_paper_details', {
+                            fetch('https://national-test-abhyash.onrender.com/first_paper_details', {
                                 method: 'PUT',
                                 headers: {
                                     'Content-Type': 'application/json'
@@ -382,7 +382,7 @@
                             document.getElementById('main').style.display = 'none';
                         }, 100);
                         setTimeout(() => {
-                            fetch('http://127.0.0.1:3000/first_paper_details', {
+                            fetch('https://national-test-abhyash.onrender.com/first_paper_details', {
                                 method: 'PUT',
                                 headers: {
                                     'Content-Type': 'application/json'
